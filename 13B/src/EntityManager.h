@@ -13,7 +13,7 @@ class EntityManager
 {
 private:
 
-	int m_totalEntities = 0;
+	int m_totalEntities;
 
 	std::vector<std::shared_ptr<Entity>>	m_entities;
 	std::vector<std::shared_ptr<Entity>>	m_entitiesToAdd;

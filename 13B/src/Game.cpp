@@ -75,7 +75,7 @@ void Game::spawnPlayer()
 	entity->cTransform = std::make_shared<CTransform>(Vec2(mx, my), Vec2(1.0f, 1.0f), 0.0f);
 
 	// Entity will have radius 32, 8 vertices, dark grey fill, and red outline with thickness 4
-	entity->cShape = std::make_shared<CShape>(32.0f, m_playerConfig.V, sf::Color(10, 10, 10), sf::Color(255, 0, 0, 4.0f));
+	entity->cShape = std::make_shared<CShape>(32.0f, m_playerConfig.V, sf::Color(10, 10, 10), sf::Color(255, 0, 0, 4.0f), 6);
 
 	// Add an input component to the player
 	entity->cInput = std::make_shared<CInput>();
@@ -90,7 +90,7 @@ void Game::spawnEnemy()
 	// TODO: Make sure enemy is spawned properly with the m_enemyConfig variables
 	//		 the enemy must be spawned completely within the bounds of the window
 	//
-	std::shared_ptr<Entity> entity = m_entities.add("enemy");
+	std::shared_ptr<Entity> entity = m_entities.addEntity("enemy");
 
 	// Give Entity a transform to spawn in random location, this is not correct,
 	// needs work

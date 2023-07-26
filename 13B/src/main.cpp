@@ -5,13 +5,12 @@
 
 int main()
 {
-	Game g("config.txt");
-	g.run();
+	//Game g("config.txt");
+	//g.run();
 
 	/*-----------------------	Test Code (delete for final) -----------------------*/
 	Vec2 v1(1, 1);
-	Vec2 v2(1, 1);
+	Vec2 v2(4, 6);
 
-	v1 = v1 + v2;
-	std::cout << v1.x << "," << v1.y << std::endl;
+	std::cout << v2.x << "," << v2.y << std::endl;
 }

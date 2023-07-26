@@ -7,40 +7,34 @@ Vec2::Vec2()
 }
 
 Vec2::Vec2(float xin, float yin)
-	: x(xin), y(yin)
-{
+	: x(xin), y(yin) {}
 
-}
-
-bool Vec2::operator == (const Vec2& rhs) const
+bool Vec2::operator == (const Vec2& rhs) const		// Tested
 {
 	return (this->x == rhs.x && this->y == rhs.y);
 }
 
-bool Vec2::operator != (const Vec2& rhs) const
+bool Vec2::operator != (const Vec2& rhs) const		// Tested
 {
-	// TODO
-	return false;
+	return(this->x != rhs.x || this->y != rhs.y);
 }
 
-Vec2 Vec2::operator + (const Vec2& rhs) const
+Vec2 Vec2::operator + (const Vec2& rhs) const		// Tested 
 {
 	return Vec2(this->x + rhs.x, this->y + rhs.y);
 }
 
-Vec2 Vec2::operator - (const Vec2& rhs) const
+Vec2 Vec2::operator - (const Vec2& rhs) const		// Tested
 {
-	// TODO
-	return Vec2(0, 0);
+	return Vec2(this->x - rhs.x, this->y - rhs.y);
 }
 
-Vec2 Vec2::operator / (const float val) const
+Vec2 Vec2::operator / (const float val) const		// Tested
 {
-	// TODO
-	return Vec2(0, 0);
+	return Vec2(this->x / val, this->y / val);
 }
 
-Vec2 Vec2::operator * (const float val) const
+Vec2 Vec2::operator * (const float val) const		// Tested
 {
 	return Vec2(this->x * val, this->y * val);
 }
@@ -65,14 +59,15 @@ void Vec2::operator *= (const Vec2& rhs) const
 	// TODO
 }
 
-float Vec2::dist(const Vec2& rhs) const
+float Vec2::length(const Vec2& rhs) const
 {
-	// TODO
-	return 0;
+	float x_dist = rhs.x - this->x;
+	float y_dist = rhs.y - this->y;
+
+	return sqrtf(pow(x_dist, 2) + pow(y_dist, 2));
 }
 
-float Vec2::length() const
+void normalize()
 {
 	// TODO
-	return 0;
 }

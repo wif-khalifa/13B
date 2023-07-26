@@ -18,13 +18,13 @@ public:
 	Vec2 operator / (const float val) const;
 	Vec2 operator * (const float val) const;
 
+	// The four operator overload functions below originally had void as return type
 	void operator += (const Vec2& rhs) const;
 	void operator -= (const Vec2& rhs) const;
 	void operator /= (const Vec2& rhs) const;
 	void operator *= (const Vec2& rhs) const;
 
-	float dist(const Vec2& rhs) const;
-	float length() const;	// this is not part of provided class, but can add if desired
+	float length(const Vec2& rhs) const;	
 
-	void normalize() const;	// this is not part of provided class, but can add if desired
+	void normalize() const;	
 };
