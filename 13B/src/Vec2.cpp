@@ -48,15 +48,18 @@ double Vec2::length(const Vec2& rhs) const			// Tested
 	return sqrtf(pow(x_dist, 2) + pow(y_dist, 2));
 }
 
-void Vec2::normalize(Vec2& rhs) const 
+// Function works as written, however UML shows return type as void
+Vec2 Vec2::normalize(Vec2& rhs) const				// Tested
 {
 	// TODO
+	double length = this->length(rhs);
+	return Vec2(this->x / length, this->y / length);
 }
 
-/*	Implement later (maybe)
-void Vec2::operator += (const Vec2& rhs) const
+/* Implement later, maybe
+Vec2 Vec2::operator += (const Vec2& rhs) const
 {
-	// TODO	
+	return Vec2(x + rhs.x, y + rhs.y);
 }
 
 void Vec2::operator -= (const Vec2& rhs) const

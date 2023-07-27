@@ -11,4 +11,8 @@ int main()
 	/*-----------------------	Test Code (delete for final) -----------------------*/
 	Vec2 v1(5, 5);
 	Vec2 v2(10, 10);
+
+	v1.normalize(v2);
+
+	std::cout << sqrtf(pow(v1.x, 2) + pow(v1.y, 2)) << std::endl;
 }
