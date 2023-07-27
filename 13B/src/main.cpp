@@ -10,7 +10,5 @@ int main()
 
 	/*-----------------------	Test Code (delete for final) -----------------------*/
 	Vec2 v1(1, 1);
-	Vec2 v2(4, 6);
-
-	std::cout << v2.x << "," << v2.y << std::endl;
+	Vec2 v2(2, 2);
 }

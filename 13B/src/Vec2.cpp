@@ -39,9 +39,23 @@ Vec2 Vec2::operator * (const float val) const		// Tested
 	return Vec2(this->x * val, this->y * val);
 }
 
+float Vec2::length(const Vec2& rhs) const		// Tested
+{
+	float x_dist = rhs.x - this->x;
+	float y_dist = rhs.y - this->y;
+
+	return sqrtf(pow(x_dist, 2) + pow(y_dist, 2));
+}
+
+Vec2 Vec2::normalize() const 
+{
+	return Vec2(this->x / this->length(*this), this->y / this->length(*this));
+}
+
+/*	Implement later (maybe)
 void Vec2::operator += (const Vec2& rhs) const
 {
-	// TODO
+	// TODO	
 }
 
 void Vec2::operator -= (const Vec2& rhs) const
@@ -58,16 +72,4 @@ void Vec2::operator *= (const Vec2& rhs) const
 {
 	// TODO
 }
-
-float Vec2::length(const Vec2& rhs) const
-{
-	float x_dist = rhs.x - this->x;
-	float y_dist = rhs.y - this->y;
-
-	return sqrtf(pow(x_dist, 2) + pow(y_dist, 2));
-}
-
-void normalize()
-{
-	// TODO
-}
+*/
