@@ -18,9 +18,9 @@ public:
 	Vec2 operator / (const float val) const;
 	Vec2 operator * (const float val) const;
 	
-	float length(const Vec2& rhs) const;	
+	double length(const Vec2& rhs) const;	
 	
-	Vec2 normalize() const;	
+	void normalize(Vec2& rhs) const;	
 
 	// The four operator overload functions below originally had void as return type
 	void operator += (const Vec2& rhs) const;

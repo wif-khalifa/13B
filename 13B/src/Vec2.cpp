@@ -39,7 +39,8 @@ Vec2 Vec2::operator * (const float val) const		// Tested
 	return Vec2(this->x * val, this->y * val);
 }
 
-float Vec2::length(const Vec2& rhs) const		// Tested
+// Calculate length of hypoteneuse (distance between two entities)
+double Vec2::length(const Vec2& rhs) const			// Tested
 {
 	float x_dist = rhs.x - this->x;
 	float y_dist = rhs.y - this->y;
@@ -47,9 +48,9 @@ float Vec2::length(const Vec2& rhs) const		// Tested
 	return sqrtf(pow(x_dist, 2) + pow(y_dist, 2));
 }
 
-Vec2 Vec2::normalize() const 
+void Vec2::normalize(Vec2& rhs) const 
 {
-	return Vec2(this->x / this->length(*this), this->y / this->length(*this));
+	// TODO
 }
 
 /*	Implement later (maybe)
