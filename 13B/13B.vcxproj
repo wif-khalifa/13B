@@ -164,12 +164,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\EntityManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="src\Vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

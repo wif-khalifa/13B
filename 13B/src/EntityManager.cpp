@@ -6,23 +6,22 @@ EntityManager::EntityManager()
 
 void init()
 {
-	// Not sure this is needed
+	// TODO
 }
 
 void EntityManager::update()
 {
-	// TODO: Add Entities from m_entitiesToAdd to the proper location(s)
-	//		 - add them to the vector of all Entities - DONE
-	//		 - add them to the vector inside the map, with the tag as a key
-
 	// Add newly spawned Entities to Entity vector
-	for (auto& e : m_entitiesToAdd)
+	for (std::shared_ptr<Entity>& e : m_entitiesToAdd)
 	{
 		m_entities.push_back(e);
 	}
 
 	// TODO: Add newly spawned Entities to Entity map
-
+	for (std::shared_ptr<Entity>& e : m_entitiesToAdd)
+	{
+		m_entityMap.insert({ e->m_tag, m_entities });
+	}
 
 	// Clear pending Entities vector for next frame
 	m_entitiesToAdd.clear();
