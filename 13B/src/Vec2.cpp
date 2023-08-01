@@ -39,10 +39,9 @@ Vec2 Vec2::operator * (const float val) const
 // Calculate length of hypoteneuse (distance between two entities)
 double Vec2::length(const Vec2& rhs) const			
 {
-	float x_dist = rhs.x - this->x;
-	float y_dist = rhs.y - this->y;
+	Vec2 vec2_delta = *this - rhs;
 
-	return sqrtf(pow(x_dist, 2) + pow(y_dist, 2));
+	return sqrtf(pow(vec2_delta.x, 2) + pow(vec2_delta.y, 2));
 }
 
 // Function works as written, however UML shows return type as void

@@ -26,7 +26,7 @@ public:
 	
 	void init();
 	void update();
-	void removeDeadEntities(EntityVec& vec);
+	void removeDeadEntities(std::vector<std::shared_ptr<Entity>>& vec);
 
 	std::shared_ptr<Entity> addEntity(const std::string& tag);
 	

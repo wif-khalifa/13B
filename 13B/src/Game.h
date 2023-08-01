@@ -12,7 +12,7 @@ class Game
 {
 private:
 
-	EntityManager		m_entities;			// Vector of Entities to maintain
+	EntityManager		m_entityManager;	// Vector of Entities to maintain
 	
 	sf::RenderWindow	m_window;			// Window we will draw to
 	sf::Font			m_font;				// Font used to draw

@@ -14,7 +14,9 @@ void Game::init(const std::string& path)
 {
 	// TODO: Read in config file here using pre-made PlayerConfig,
 	//		 EnemyConfig, and BulletConfig variables
-	std::ifstream fin(path);	// Prof example, still need to do stuff with fin
+	 
+	//std::ifstream fin(path);	// Prof example, still need to do stuff with fin
+	
 	// If entry is for player, since we have player struct PlayerConfig declared do this
 	// fin >> m_playerConfig.SR >> m_playerConfig.CR >> ...
 
@@ -24,6 +26,8 @@ void Game::init(const std::string& path)
 	m_window.setFramerateLimit(60);
 
 	spawnPlayer();
+
+	m_running = true;	// Not sure if this is best location, 
 }
 
 void Game::run()
@@ -32,7 +36,7 @@ void Game::run()
 	//		 while paused (rendering), some systems shouldn't (movement / input)
 	while (m_running)
 	{
-		m_entities.update();
+		m_entityManager.update();
 
 		// This is not a definitive list of functions that should be called (or not called) 
 		// when paused. However, this seems mostly correct minus sUserInput, can't unpause 
@@ -67,15 +71,16 @@ void Game::spawnPlayer()
 	//		 from config file, such as m_playerConfig.V below
 
 	// Entities are created by calling EntityManager.addEntity(tag)
-	std::shared_ptr<Entity> entity = m_entities.addEntity("player");
+	std::shared_ptr<Entity> entity = m_entityManager.addEntity("player");
 
-	// Give Entitey a transform so it spawns in center of window with velocity (1,1) and angle 0
+	// Give Entity a transform so it spawns in center of window with velocity (1,1) and angle 0
 	mx = m_window.getSize().x / 2.0f;
 	my = m_window.getSize().y / 2.0f;
-	entity->cTransform = std::make_shared<CTransform>(Vec2(mx, my), Vec2(1.0f, 1.0f), 0.0f);
+	entity->cTransform = std::make_shared<CTransform>(Vec2(mx, my), Vec2(0.0f, 0.0f), 0.0f);
 
 	// Entity will have radius 32, 8 vertices, dark grey fill, and red outline with thickness 4
-	entity->cShape = std::make_shared<CShape>(32.0f, m_playerConfig.V, sf::Color(10, 10, 10), sf::Color(255, 0, 0, 4.0f), 6);
+	//entity->cShape = std::make_shared<CShape>(32.0f, m_playerConfig.V, sf::Color(10, 10, 10), sf::Color(255, 0, 0), 4);
+	entity->cShape = std::make_shared<CShape>(32.0f, 8, sf::Color(5, 5, 5), sf::Color(255, 0, 0), 4);	// Added for testing
 
 	// Add an input component to the player
 	entity->cInput = std::make_shared<CInput>();
@@ -90,14 +95,14 @@ void Game::spawnEnemy()
 	// TODO: Make sure enemy is spawned properly with the m_enemyConfig variables
 	//		 the enemy must be spawned completely within the bounds of the window
 	//
-	std::shared_ptr<Entity> entity = m_entities.addEntity("enemy");
+	std::shared_ptr<Entity> entity = m_entityManager.addEntity("enemy");
 
 	// Give Entity a transform to spawn in random location, this is not correct,
 	// needs work
 	float ex = rand() % m_window.getSize().x;
 	float ey = rand() % m_window.getSize().y;
 	
-	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(0.0f, 0.0f), 0.0f);
+	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(1.0f, 1.0f), 0.0f);
 
 	// Give Enemy cShape component, this is just an example, needs work
 	entity->cShape = std::make_shared<CShape>(16.0f, 3, sf::Color(0, 0, 255), sf::Color(255, 255, 255), 4.0f);
@@ -124,10 +129,11 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 	//		 - Set velocity using formula in notes
 
 	// Add bullet object to Entity vector, then add componenets
-	auto bullet = m_entities.addEntity("bullet");
+	std::shared_ptr<Entity> bullet = m_entityManager.addEntity("bullet");
 
 	// Example of adding componenets below
-	bullet->cTransform = std::make_shared<CTransform>(target, Vec2(0, 0), 0);
+	//bullet->cTransform = std::make_shared<CTransform>(target, Vec2(0, 0), 0);
+	bullet->cTransform = std::make_shared<CTransform>(m_player->cTransform->pos, Vec2(1.0, 1.0), 0);
 	bullet->cShape = std::make_shared<CShape>(10, 8, sf::Color(255, 255, 255), sf::Color(255, 0, 0), 2);
 }
 
@@ -149,12 +155,26 @@ void Game::sMovement()
 	if (m_player->cInput->up)
 	{
 		m_player->cTransform->velocity.y = -5;
+	} 
+	else if (m_player->cInput->down)
+	{
+		m_player->cTransform->velocity.y = 5;
 	}
 
-	// Sample movement speed update, this needs to be re-written to update all
-	// entities
-	m_player->cTransform->pos.x += m_player->cTransform->velocity.x;
-	m_player->cTransform->pos.y += m_player->cTransform->velocity.y;
+	if (m_player->cInput->left)
+	{
+		m_player->cTransform->velocity.x = -5;
+	}
+	else if (m_player->cInput->right)
+	{
+		m_player->cTransform->velocity.x = 5;
+	}
+
+	// Update position for all Entities based on cTransform
+	for (std::shared_ptr<Entity> e : m_entityManager.getEntities())
+	{
+		e->cTransform->pos = e->cTransform->pos + e->cTransform->velocity;
+	}
 }
 
 void Game::sLifespan()
@@ -173,9 +193,9 @@ void Game::sCollision()
 	// TODO: Implement all proper collisions between entities using collision
 	//		 radius not shape radius
 
-	for (auto b : m_entities.getEntities("bullet"))
+	for (auto b : m_entityManager.getEntities("bullet"))
 	{
-		for (auto e : m_entities.getEntities("enemy"))
+		for (auto e : m_entityManager.getEntities("enemy"))
 		{
 			// Add collision detection here 
 		}
@@ -184,14 +204,10 @@ void Game::sCollision()
 
 void Game::sEnemySpawner()
 {
-	// TODO: Code which implement enemy spawing goes here
-	//
-	//		 use (m_currentFrame - mLastEnemySpawnTime) to determine
-	//		 how long since last enemy spawned
-
-	// Calling spawnEnemy() without using frame formula will result in enemies
-	// spawing every frame
-	spawnEnemy();
+	if ((m_currentFrame - m_lastEnemySpawnTime) > 150)
+	{
+		spawnEnemy();
+	}
 }
 
 void Game::sRender()
@@ -201,7 +217,7 @@ void Game::sRender()
 	m_window.clear();
 
 	// Code below was added during lecture and will need to be included to draw all Entities
-	for (auto& e : m_entities.getEntities())
+	for (auto& e : m_entityManager.getEntities())
 	{
 		// Set position of the shape based on the Entity's transform->pos
 		e->cShape->circle.setPosition(e->cTransform->pos.x, e->cTransform->pos.y);
@@ -242,6 +258,17 @@ void Game::sUserInput()
 				std::cout << "W key pressed" << std::endl;
 				m_player->cInput->up = true;
 				break;
+			case sf::Keyboard::S:
+				std::cout << "S key pressed" << std::endl;
+				m_player->cInput->down = true;
+				break;
+			case sf::Keyboard::A:
+				std::cout << "A key pressed" << std::endl;
+				m_player->cInput->left = true;
+				break;
+			case sf::Keyboard::D:
+				std::cout << "D key pressed" << std::endl;
+				m_player->cInput->right = true;
 			default: break;
 			}
 		}
@@ -255,6 +282,17 @@ void Game::sUserInput()
 				std::cout << "W key released" << std::endl;
 				m_player->cInput->up = false;
 				break;
+			case sf::Keyboard::S:
+				std::cout << "S key released" << std::endl;
+				m_player->cInput->down = false;
+				break;
+			case sf::Keyboard::A:
+				std::cout << "A key released" << std::endl;
+				m_player->cInput->left = false;
+				break;
+			case sf::Keyboard::D:
+				std::cout << "D key released" << std::endl;
+				m_player->cInput->right = false;
 			default: break;
 			}
 		}

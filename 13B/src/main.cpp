@@ -5,11 +5,8 @@
 
 int main()
 {
-	//Game g("config.txt");
-	//g.run();
+	Game g("config.txt");
+	g.run();
 
-	/*-----------------------	Test Code (delete for final) -----------------------*/
-	EntityManager e;
-	e.addEntity("pitufo");
-	e.update();
+	/*-----------------------	Test Code (delete later) -----------------------*/
 }
