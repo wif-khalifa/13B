@@ -12,7 +12,7 @@ bool Entity::isActive() const
 const std::string& Entity::tag() const
 {
 	// TODO
-	return "tag";
+	return this->m_tag;
 }
 
 const size_t Entity::id() const

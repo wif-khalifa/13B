@@ -80,14 +80,14 @@ void Game::spawnPlayer()
 
 	// Entity will have radius 32, 8 vertices, dark grey fill, and red outline with thickness 4
 	//entity->cShape = std::make_shared<CShape>(32.0f, m_playerConfig.V, sf::Color(10, 10, 10), sf::Color(255, 0, 0), 4);
-	entity->cShape = std::make_shared<CShape>(32.0f, 8, sf::Color(5, 5, 5), sf::Color(255, 0, 0), 4);	// Added for testing
+entity->cShape = std::make_shared<CShape>(32.0f, 8, sf::Color(5, 5, 5), sf::Color(255, 0, 0), 4);	// Added for testing
 
-	// Add an input component to the player
-	entity->cInput = std::make_shared<CInput>();
+// Add an input component to the player
+entity->cInput = std::make_shared<CInput>();
 
-	// Since we want this Entity to be our player, set our Game's player variables to be thie Entity,
-	// this goes slightly against the EntityManager paradigm, but we use the player so much it's worth it.
-	m_player = entity;
+// Since we want this Entity to be our player, set our Game's player variables to be thie Entity,
+// this goes slightly against the EntityManager paradigm, but we use the player so much it's worth it.
+m_player = entity;
 }
 
 void Game::spawnEnemy()
@@ -97,15 +97,17 @@ void Game::spawnEnemy()
 	//
 	std::shared_ptr<Entity> entity = m_entityManager.addEntity("enemy");
 
-	// Give Entity a transform to spawn in random location, this is not correct,
-	// needs work
-	float ex = rand() % m_window.getSize().x;
-	float ey = rand() % m_window.getSize().y;
-	
-	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(1.0f, 1.0f), 0.0f);
+	// Give Entity a transform to spawn in random location
+	float ex = rand() % m_window.getSize().x + 32;	// TODO: replace radius values with SR, set bound for right side of window
+	float ey = rand() % m_window.getSize().y - 32;	// TODO: replace radius values with SR, set bound for right side of window
+	float sx = rand() % 6 - 3;	// TODO: replace velocity values with SMIN and SMAX 
+	float sy = rand() % 6 - 3;	// TODO: replace velocity values with SMIN and SMAX
+	int vert = rand() % 8 + 3;
+
+	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(sx, sy), 0.0f);
 
 	// Give Enemy cShape component, this is just an example, needs work
-	entity->cShape = std::make_shared<CShape>(16.0f, 3, sf::Color(0, 0, 255), sf::Color(255, 255, 255), 4.0f);
+	entity->cShape = std::make_shared<CShape>(32.0f, vert, sf::Color(rand() % 255, rand() % 255, rand() % 255), sf::Color(255, 255, 255), 4.0f);
 
 	// Record when the most recent enemy was spawned, use this value to determine
 	// when next enemy should be spawned
@@ -155,7 +157,7 @@ void Game::sMovement()
 	if (m_player->cInput->up)
 	{
 		m_player->cTransform->velocity.y = -5;
-	} 
+	}
 	else if (m_player->cInput->down)
 	{
 		m_player->cTransform->velocity.y = 5;
@@ -173,6 +175,22 @@ void Game::sMovement()
 	// Update position for all Entities based on cTransform
 	for (std::shared_ptr<Entity> e : m_entityManager.getEntities())
 	{
+		// Reverse velocity direction for enemies that hit window edges
+		if (e->tag() == "enemy")
+		{
+			if ((e->cShape->circle.getPosition().x - e->cShape->circle.getRadius()) < 0 ||
+				(e->cShape->circle.getPosition().x + e->cShape->circle.getRadius()) > m_window.getSize().x)
+			{
+				e->cTransform->velocity.x *= -1;
+			}
+
+			if ((e->cShape->circle.getPosition().y - e->cShape->circle.getRadius()) < 0 ||
+				(e->cShape->circle.getPosition().y + e->cShape->circle.getRadius()) > m_window.getSize().y)
+			{
+				e->cTransform->velocity.y *= -1;
+			}
+		}
+
 		e->cTransform->pos = e->cTransform->pos + e->cTransform->velocity;
 	}
 }
@@ -204,7 +222,7 @@ void Game::sCollision()
 
 void Game::sEnemySpawner()
 {
-	if ((m_currentFrame - m_lastEnemySpawnTime) > 150)
+	if ((m_currentFrame - m_lastEnemySpawnTime) > 90)
 	{
 		spawnEnemy();
 	}
