@@ -45,7 +45,7 @@ double Vec2::length(const Vec2& rhs) const
 }
 
 // Function works as written, however UML shows return type as void
-Vec2 Vec2::normalize(Vec2& rhs) const				// Tested
+Vec2 Vec2::normalize(const Vec2& rhs) const			// Tested
 {
 	double length = this->length(rhs);
 	return Vec2(this->x / length, this->y / length);

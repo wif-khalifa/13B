@@ -135,8 +135,19 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 
 	// Example of adding componenets below
 	//bullet->cTransform = std::make_shared<CTransform>(target, Vec2(0, 0), 0);
-	bullet->cTransform = std::make_shared<CTransform>(m_player->cTransform->pos, Vec2(1.0, 1.0), 0);
-	bullet->cShape = std::make_shared<CShape>(10, 8, sf::Color(255, 255, 255), sf::Color(255, 0, 0), 2);
+	bullet->cTransform = std::make_shared<CTransform>(m_player->cTransform->pos, target, 0);
+	bullet->cShape = std::make_shared<CShape>(10, 8, sf::Color(255, 255, 255), sf::Color(255, 255, 255), 2);
+	
+	// Adjust velocity direction based on mouse position relative to m_player position
+	if (target.x < m_player->cTransform->pos.x)
+	{
+		bullet->cTransform->velocity.x *= -1;
+	}
+
+	if (target.y < m_player->cTransform->pos.y)
+	{
+		bullet->cTransform->velocity.y *= -1;
+	}
 }
 
 void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity)
