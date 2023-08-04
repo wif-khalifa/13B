@@ -10,6 +10,7 @@ Game::Game(const std::string& config)
 	init(config);
 }
 
+
 void Game::init(const std::string& path)
 {
 	// TODO: Read in config file here using pre-made PlayerConfig,
@@ -30,6 +31,7 @@ void Game::init(const std::string& path)
 	m_running = true;	// Not sure if this is best location, 
 }
 
+
 void Game::run()
 {
 	// TODO: Add pause functionality here, some systems should function
@@ -46,6 +48,7 @@ void Game::run()
 			sEnemySpawner();
 			sMovement();
 			sCollision();
+			sLifespan();
 			sUserInput();
 		}
 
@@ -56,10 +59,12 @@ void Game::run()
 	}
 }
 
+
 void Game::setPaused(bool paused)
 {
 	// TODO
 }
+
 
 // Respawn player in middle of screen
 void Game::spawnPlayer()
@@ -90,6 +95,7 @@ entity->cInput = std::make_shared<CInput>();
 m_player = entity;
 }
 
+
 void Game::spawnEnemy()
 {
 	// TODO: Make sure enemy is spawned properly with the m_enemyConfig variables
@@ -109,10 +115,10 @@ void Game::spawnEnemy()
 	// Give Enemy cShape component, this is just an example, needs work
 	entity->cShape = std::make_shared<CShape>(32.0f, vert, sf::Color(rand() % 255, rand() % 255, rand() % 255), sf::Color(255, 255, 255), 4.0f);
 
-	// Record when the most recent enemy was spawned, use this value to determine
-	// when next enemy should be spawned
+	// Record when the most recent enemy was spawned to use for determining when to spawn new enemy
 	m_lastEnemySpawnTime = m_currentFrame;
 }
+
 
 void Game::spawnSmallEnemies(std::shared_ptr<Entity> e)
 {
@@ -124,18 +130,16 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e)
 	// - Small enemies are worth double points of the original enemy
 }
 
+
 void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 {
-	// TODO: Implement spawning of a bullet which travels toward target
-	//		 - Bullet speed is given as a scalar speed
-	//		 - Set velocity using formula in notes
-
 	// Add bullet object to Entity vector, then add componenets
 	std::shared_ptr<Entity> bullet = m_entityManager.addEntity("bullet");
 
 	// Add required components for bullet Entity
-	bullet->cTransform = std::make_shared<CTransform>(m_player->cTransform->pos, target, 0);
-	bullet->cShape = std::make_shared<CShape>(10, 8, sf::Color(255, 255, 255), sf::Color(255, 255, 255), 2);
+	bullet->cTransform	= std::make_shared<CTransform>(m_player->cTransform->pos, target, 0);
+	bullet->cShape		= std::make_shared<CShape>(10, 8, sf::Color(255, 255, 255), sf::Color(255, 255, 255), 2);
+	bullet->cLifespan	= std::make_shared<CLifespan>(0, 90);
 
 	// Convert bullet velocity to unit vector
 	bullet->cTransform->velocity.normalize(m_player->cTransform->pos);
@@ -144,18 +148,19 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 	bullet->cTransform->velocity = bullet->cTransform->velocity * 20;	// Replace 20 with variable from config.txt
 }
 
+
 void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity)
 {
 	// TODO: implement special weapon
 }
+
 
 void Game::sMovement()
 {
 	// TODO: Implement all Entity movement in this function
 	//		 - read m_player->cInput component to determine if player is moving
 
-	// Set player velocity to {0,0} at the beginning of every frame so that
-	// if keys are released player will halt movement
+	// Set player velocity to {0,0} at the beginning of every frame so player halts when keys released
 	m_player->cTransform->velocity = { 0,0 };
 
 	// Implement player movement
@@ -200,6 +205,7 @@ void Game::sMovement()
 	}
 }
 
+
 void Game::sLifespan()
 {
 	// TODO: Implement all lifespan functionality
@@ -209,7 +215,30 @@ void Game::sLifespan()
 	//		 - If Entity has > 0 remaining lifespan, subtract 1
 	//		 - If Entity has lifespan and is alive, scale its alpha channel properly
 	//		 - If Entity has lifespan and time is up, destroy the Entity
+	int alphaRatio;
+
+	for (std::shared_ptr<Entity> e : m_entityManager.getEntities())
+	{
+		if (e->cLifespan)
+		{
+			// This if statement was added for testing until removeDeadEntities() is completed
+			if (e->cLifespan->remaining > 0)
+			{
+				// Store remaining life for Entity
+				e->cLifespan->remaining = e->cLifespan->total--;
+				std::cout << e->cLifespan->remaining << std::endl;		// For testing, delete later
+			}
+
+			// Calculate new alpha ratio for Entities with lifespans
+			alphaRatio = 255 * (e->cLifespan->remaining / e->cLifespan->total);		// Replace 255 with variable from config.txt
+			
+			// Decrease alpha ratio as Entity's life span reaches end
+			//e->cShape->circle.setFillColor(sf::Color(255, 255, 255, alphaRatio));
+			//e->cShape->circle.setOutlineColor(sf::Color(255, 255, 255, alphaRatio));
+		}
+	}
 }
+
 
 void Game::sCollision()
 {

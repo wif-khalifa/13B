@@ -5,23 +5,20 @@ Entity::Entity(const size_t id, const std::string& tag)
 
 bool Entity::isActive() const
 {
-	// TODO
-	return 0;
+	return this->m_active;
 }
 
 const std::string& Entity::tag() const
 {
-	// TODO
 	return this->m_tag;
 }
 
 const size_t Entity::id() const
 {
-	// TODO
-	return 0;
+	return this->m_id;
 }
 
 void Entity::destroy()
 {
-	// TODO
+	this->m_active = false;
 }

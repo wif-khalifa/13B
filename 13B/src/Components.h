@@ -61,6 +61,7 @@ public:
 
 class CLifespan
 {
+public:
 	int remaining	= 0;	// remaining lifespan of Entity in frames
 	int total		= 0;	// total lifespan of Entity in frames
 
