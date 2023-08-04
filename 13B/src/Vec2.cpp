@@ -44,11 +44,12 @@ double Vec2::length(const Vec2& rhs) const
 	return sqrtf(pow(vec2_delta.x, 2) + pow(vec2_delta.y, 2));
 }
 
-// Function works as written, however UML shows return type as void
-Vec2 Vec2::normalize(const Vec2& rhs) const			// Tested
+// Normalize vector into unit vector
+void Vec2::normalize(const Vec2& rhs)// const			
 {
 	double length = this->length(rhs);
-	return Vec2(this->x / length, this->y / length);
+	this->x = (this->x - rhs.x) / length; 
+	this->y = (this->y - rhs.y) / length;
 }
 
 /* Implement later, maybe
