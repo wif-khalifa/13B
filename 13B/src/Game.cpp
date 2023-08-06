@@ -139,7 +139,7 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 	// Add required components for bullet Entity
 	bullet->cTransform	= std::make_shared<CTransform>(m_player->cTransform->pos, target, 0);
 	bullet->cShape		= std::make_shared<CShape>(10, 8, sf::Color(255, 255, 255), sf::Color(255, 255, 255), 2);
-	bullet->cLifespan	= std::make_shared<CLifespan>(0, 90);
+	bullet->cLifespan	= std::make_shared<CLifespan>(90, 90);
 
 	// Convert bullet velocity to unit vector
 	bullet->cTransform->velocity.normalize(m_player->cTransform->pos);
@@ -221,20 +221,23 @@ void Game::sLifespan()
 	{
 		if (e->cLifespan)
 		{
-			// This if statement was added for testing until removeDeadEntities() is completed
+			// Update remaining lifespan for Entity
+			e->cLifespan->remaining--;
+
+			// If Entity has remaining lifespan update alpha ratio, otherwise destroy Entity
 			if (e->cLifespan->remaining > 0)
 			{
-				// Store remaining life for Entity
-				e->cLifespan->remaining = e->cLifespan->total--;
-				std::cout << e->cLifespan->remaining << std::endl;		// For testing, delete later
-			}
+				// Calculate new alpha ratio for Entities with lifespans
+				alphaRatio = 255 * ((float)e->cLifespan->remaining / (float)e->cLifespan->total);		// Replace 255 with variable from config.txt
 
-			// Calculate new alpha ratio for Entities with lifespans
-			alphaRatio = 255 * (e->cLifespan->remaining / e->cLifespan->total);		// Replace 255 with variable from config.txt
-			
-			// Decrease alpha ratio as Entity's life span reaches end
-			//e->cShape->circle.setFillColor(sf::Color(255, 255, 255, alphaRatio));
-			//e->cShape->circle.setOutlineColor(sf::Color(255, 255, 255, alphaRatio));
+				// Decrease alpha ratio as Entity's lifespan reaches end
+				e->cShape->circle.setFillColor(sf::Color(255, 255, 255, alphaRatio));
+				e->cShape->circle.setOutlineColor(sf::Color(255, 255, 255, alphaRatio));
+			}
+			else
+			{
+				e->destroy();
+			}
 		}
 	}
 }

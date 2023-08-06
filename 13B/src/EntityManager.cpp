@@ -43,13 +43,16 @@ void EntityManager::removeDeadEntities(std::vector<std::shared_ptr<Entity>>& vec
 	// TODO: Remove all dead Entities from the input vector
 	//		 this is called by the update() function
 
-	for (auto e : vec)
-	{
-		if (!e->isActive())
-		{
-			// remove from vec, use std::remove_if from std C++ library
-		}
-	}
+	std::shared_ptr<Entity> it;
+	std::remove_if(m_entities.begin(), m_entities.end(), !it->isActive());
+	
+	//for (auto e : vec)
+	//{
+	//	if (!e->isActive())
+	//	{
+	//		// remove from vec, use std::remove_if from std C++ library
+	//	}
+	//}
 }
 
 std::shared_ptr<Entity> EntityManager::addEntity(const std::string& tag)
