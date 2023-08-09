@@ -15,10 +15,9 @@ private:
 
 	int m_totalEntities;
 
-	std::vector<std::shared_ptr<Entity>>	m_entities;
-	std::vector<std::shared_ptr<Entity>>	m_entitiesToAdd;
-	
-	std::map<std::string, EntityVec>		m_entityMap;
+	std::vector	<std::shared_ptr<Entity>>	m_entities;
+	std::vector	<std::shared_ptr<Entity>>	m_entitiesToAdd;
+	std::map	<std::string, EntityVec>	m_entityMap;
 
 public:
 

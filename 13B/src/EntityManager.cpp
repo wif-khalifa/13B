@@ -4,10 +4,12 @@
 EntityManager::EntityManager()
 	: m_totalEntities(0) {}
 
+
 void init()
 {
 	// TODO
 }
+
 
 void EntityManager::update()
 {
@@ -38,22 +40,37 @@ void EntityManager::update()
 
 }
 
+
 void EntityManager::removeDeadEntities(std::vector<std::shared_ptr<Entity>>& vec)
 {
-	// TODO: Remove all dead Entities from the input vector
-	//		 this is called by the update() function
-
-	std::shared_ptr<Entity> it;
-	std::remove_if(m_entities.begin(), m_entities.end(), !it->isActive());
+	// Remove all dead Entities from the input vector
+	if (!vec.empty())
+	{
+		for (int i = vec.size() - 1; i >= 0; i--)
+		{
+			if (!vec.at(i)->isActive())
+			{
+				vec.erase(vec.begin() + i);
+			}
+		}
+	}
 	
-	//for (auto e : vec)
-	//{
-	//	if (!e->isActive())
-	//	{
-	//		// remove from vec, use std::remove_if from std C++ library
-	//	}
-	//}
+	/*	Original implementation meant to use remove_if in code below, however the following errors thrown:
+			C2276	'!': illegal operation on bound member function expression
+			C2672	'std::remove_if': no matching overloaded function found
+		
+		for (std::shared_ptr<Entity> e : vec)
+		{
+			if (!e->isActive())
+			{
+				vec.erase(std::remove_if(vec.begin(), vec.end(), !isActive), vec.end());
+			}
+		
+		}
+	*/
 }
+
+
 
 std::shared_ptr<Entity> EntityManager::addEntity(const std::string& tag)
 {
@@ -64,10 +81,12 @@ std::shared_ptr<Entity> EntityManager::addEntity(const std::string& tag)
 	return entity;
 }
 
+
 const EntityVec& EntityManager::getEntities()
 {
 	return m_entities;
 }
+
 
 const std::vector<std::shared_ptr<Entity>>& EntityManager::getEntities(const std::string& tag)
 {
