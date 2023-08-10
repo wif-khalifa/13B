@@ -12,8 +12,8 @@ private:
 	friend class EntityManager;
 
 	bool		m_active	= true;
-	size_t		m_id		= 0;
 	std::string	m_tag		= "default";
+	size_t		m_id		= 0;
 
 	// Constructor
 	Entity(const size_t id, const std::string& tag);

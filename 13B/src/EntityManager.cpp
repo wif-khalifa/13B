@@ -1,5 +1,5 @@
-#include <memory>
 #include "EntityManager.h"
+#include <iostream>	// For testing, delete later
 
 EntityManager::EntityManager()
 	: m_totalEntities(0) {}
@@ -19,10 +19,25 @@ void EntityManager::update()
 		m_entities.push_back(e);
 	}
 
-	// TODO: Add newly spawned Entities to Entity map
+	// Add newly spawned Entities to Entity map
 	for (std::shared_ptr<Entity>& e : m_entitiesToAdd)
 	{
-		m_entityMap.insert({ e->m_tag, m_entities });
+		//m_entityMap.insert({ e->m_tag, m_entities });
+		if (e->m_tag == "player")
+		{
+			m_playerMapVec.push_back(e);
+			m_entityMap[e->m_tag] = m_playerMapVec;
+		}
+		else if (e->m_tag == "enemy")
+		{
+			m_enemyMapVec.push_back(e);
+			m_entityMap[e->m_tag] = m_enemyMapVec;
+		}
+		else if (e->m_tag == "bullet")
+		{
+			m_bulletMapVec.push_back(e);
+			m_entityMap[e->m_tag] = m_bulletMapVec;
+		}
 	}
 
 	// Clear pending Entities vector for next frame
@@ -41,6 +56,7 @@ void EntityManager::update()
 }
 
 
+// TODO: Implement this function using std::remove_if OR std::remove if possible
 void EntityManager::removeDeadEntities(std::vector<std::shared_ptr<Entity>>& vec)
 {
 	// Remove all dead Entities from the input vector

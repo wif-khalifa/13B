@@ -1,4 +1,4 @@
-#include <iostream>
+#include <iostream>		// For testing, delete later
 #include <fstream>
 #include "SFML/Graphics.hpp"
 #include "Game.h"
@@ -110,10 +110,10 @@ void Game::spawnEnemy()
 	float sy = rand() % 6 - 3;	// TODO: replace velocity values with SMIN and SMAX
 	int vert = rand() % 8 + 3;
 
+	// Add components to enemy Entity, TODO: populate hardcoded values from config.txt
 	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(sx, sy), 0.0f);
-
-	// Give Enemy cShape component, this is just an example, needs work
 	entity->cShape = std::make_shared<CShape>(32.0f, vert, sf::Color(rand() % 255, rand() % 255, rand() % 255), sf::Color(255, 255, 255), 4.0f);
+	entity->cCollision = std::make_shared<CCollision>(32.0f);
 
 	// Record when the most recent enemy was spawned to use for determining when to spawn new enemy
 	m_lastEnemySpawnTime = m_currentFrame;
@@ -139,7 +139,8 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 	// Add required components for bullet Entity
 	bullet->cTransform	= std::make_shared<CTransform>(m_player->cTransform->pos, target, 0);
 	bullet->cShape		= std::make_shared<CShape>(10, 8, sf::Color(255, 255, 255), sf::Color(255, 255, 255), 2);
-	bullet->cLifespan	= std::make_shared<CLifespan>(90, 90);
+	bullet->cLifespan	= std::make_shared<CLifespan>(50, 50);
+	bullet->cCollision  = std::make_shared<CCollision>(10);
 
 	// Convert bullet velocity to unit vector
 	bullet->cTransform->velocity.normalize(m_player->cTransform->pos);
@@ -248,11 +249,16 @@ void Game::sCollision()
 	// TODO: Implement all proper collisions between entities using collision
 	//		 radius not shape radius
 
-	for (auto b : m_entityManager.getEntities("bullet"))
+	for (std::shared_ptr<Entity> b : m_entityManager.getEntities("bullet"))
 	{
-		for (auto e : m_entityManager.getEntities("enemy"))
+		for (std::shared_ptr<Entity> e : m_entityManager.getEntities("enemy"))
 		{
-			// Add collision detection here 
+			// Detect collisions between bullet and enemy Entities
+			if (b->cTransform->pos.length(e->cTransform->pos) <= (b->cCollision->radius + e->cCollision->radius))
+			{
+				b->destroy();
+				e->destroy();
+			}
 		}
 	}
 }
