@@ -25,18 +25,15 @@ void EntityManager::update()
 		//m_entityMap.insert({ e->m_tag, m_entities });
 		if (e->m_tag == "player")
 		{
-			m_playerMapVec.push_back(e);
-			m_entityMap[e->m_tag] = m_playerMapVec;
+			m_entityMap[e->m_tag].push_back(e);
 		}
 		else if (e->m_tag == "enemy")
 		{
-			m_enemyMapVec.push_back(e);
-			m_entityMap[e->m_tag] = m_enemyMapVec;
+			m_entityMap[e->m_tag].push_back(e);
 		}
 		else if (e->m_tag == "bullet")
 		{
-			m_bulletMapVec.push_back(e);
-			m_entityMap[e->m_tag] = m_bulletMapVec;
+			m_entityMap[e->m_tag].push_back(e);
 		}
 	}
 
@@ -59,31 +56,30 @@ void EntityManager::update()
 // TODO: Implement this function using std::remove_if OR std::remove if possible
 void EntityManager::removeDeadEntities(std::vector<std::shared_ptr<Entity>>& vec)
 {
-	// Remove all dead Entities from the input vector
-	if (!vec.empty())
-	{
-		for (int i = vec.size() - 1; i >= 0; i--)
-		{
-			if (!vec.at(i)->isActive())
-			{
-				vec.erase(vec.begin() + i);
-			}
-		}
-	}
-	
-	/*	Original implementation meant to use remove_if in code below, however the following errors thrown:
-			C2276	'!': illegal operation on bound member function expression
-			C2672	'std::remove_if': no matching overloaded function found
-		
-		for (std::shared_ptr<Entity> e : vec)
-		{
-			if (!e->isActive())
-			{
-				vec.erase(std::remove_if(vec.begin(), vec.end(), !isActive), vec.end());
-			}
-		
-		}
-	*/
+	// Remove all dead Entities from the Entity vector and Entity map
+	m_entities.erase(std::remove_if(m_entities.begin(), 
+									m_entities.end(), 
+									[&](std::shared_ptr<Entity>& e) 
+										{ return !e->isActive(); }), 
+									m_entities.end());
+
+	m_playerMapVec.erase(std::remove_if(m_playerMapVec.begin(),
+										m_playerMapVec.end(),
+										[&](std::shared_ptr<Entity>& e)
+											{ return !e->isActive(); }),			
+										m_playerMapVec.end());
+
+	m_enemyMapVec.erase(std::remove_if(m_enemyMapVec.begin(),
+									   m_enemyMapVec.end(),
+									   [&](std::shared_ptr<Entity>& e)
+											{ return !e->isActive(); }),
+									   m_enemyMapVec.end());
+
+	m_bulletMapVec.erase(std::remove_if(m_bulletMapVec.begin(),
+										m_bulletMapVec.end(),
+										[&](std::shared_ptr<Entity>& e)
+											{ return !e->isActive(); }),
+										m_bulletMapVec.end());
 }
 
 
