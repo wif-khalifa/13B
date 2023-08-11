@@ -1,3 +1,44 @@
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;PACKAGE NAME:	TODO
+;
+;FUNCTION:
+;
+;	This unit contains the definitions required to create the...TODO
+;
+;
+;PUBLIC DECLARATIONS:
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	PUBLIC SYMBOLS
+;	--------------
+;	TODO
+;
+;	PUBLIC SUB-PROGRAMS
+;	------------------
+;	TODO
+;
+;PRIVATE DECLARATIONS:
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	PRIVATE SYMBOLS
+;	---------------
+;	TODO
+;
+;	PRIVATE SUB-PROGRAMS
+;	--------------------
+;	TODO
+;
+*/
+
 #pragma once
 
 #include <SFML/Config.hpp>

@@ -1,3 +1,55 @@
+/**********************************************************************************************************
+;**********								13B Entity Manager Interface							 **********
+;**********************************************************************************************************
+;
+;PACKAGE NAME:	EntityManager.h - 13B Entity Manager Interface
+;
+;FUNCTION:
+;
+;	This unit contains the definitions required to create the 13B Entity Manager object.
+;
+;PUBLIC DECLARATIONS:
+;
+;	USER DEFINED TYPES
+;	------------------
+;	EntityManager	- 13B Entity Manager class
+;
+;	PUBLIC SYMBOLS
+;	--------------
+;	None
+;
+;	PUBLIC SUB-PROGRAMS
+;	------------------
+;	EntityManager::EntityManager		- Default Constructor
+;	EntityManager::init					- TODO
+;	EntityManager::update				- TODO
+;	EntityManager::removeDeadEntities	- TODO
+;	EntityManager::addEntity			- TODO
+;	EntityManager::getEntities			- TODO
+;	EntityManager::getEntities			- TODO
+;
+;PRIVATE DECLARATIONS:
+;
+;	USER DEFINED TYPES
+;	------------------
+;	None
+;
+;	PRIVATE SYMBOLS
+;	---------------
+;	m_totalEntities		- TODO
+;	m_entities			- TODO
+;	m_entitiesToAdd		- TODO
+;	m_playerMapVec		- TODO
+;	m_enemyMapVec		- TODO
+;	m_bulletMapVec		- TODO
+;	m_entityMap			- TODO
+;
+;	PRIVATE SUB-PROGRAMS
+;	--------------------
+;	None
+;
+*/
+
 #pragma once
 
 #include <memory>

@@ -1,3 +1,35 @@
+/**********************************************************************************************************
+;**********								TODO		 
+;**********************************************************************************************************
+;
+;PACKAGE NAME:	TODO
+;
+;FUNCTION:
+;
+;	This unit contains the source code designed to...TODO
+;
+;PUBLIC DECLARATIONS:
+;
+;	PUBLIC SYMBOLS
+;	--------------
+;	TODO
+;
+;	PUBLIC SUB-PROGRAMS
+;	------------------
+;	TODO
+;
+;PRIVATE DECLARATIONS:
+;
+;	PRIVATE SYMBOLS
+;	---------------
+;	TODO
+;
+;	PRIVATE SUB-PROGRAMS
+;	--------------------
+;	TODO
+;
+*/
+
 #include <iostream>		// For testing, delete later
 #include <fstream>
 #include "SFML/Graphics.hpp"
@@ -5,12 +37,69 @@
 #include "Vec2.h"
 #include "EntityManager.h"
 
+
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 Game::Game(const std::string& config)
 {
 	init(config);
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::init(const std::string& path)
 {
 	// TODO: Read in config file here using pre-made PlayerConfig,
@@ -32,6 +121,34 @@ void Game::init(const std::string& path)
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::run()
 {
 	// TODO: Add pause functionality here, some systems should function
@@ -60,13 +177,68 @@ void Game::run()
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::setPaused(bool paused)
 {
 	// TODO
 }
 
 
-// Respawn player in middle of screen
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::spawnPlayer()
 {
 	float mx, my;
@@ -96,6 +268,34 @@ m_player = entity;
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::spawnEnemy()
 {
 	// TODO: Make sure enemy is spawned properly with the m_enemyConfig variables
@@ -120,6 +320,34 @@ void Game::spawnEnemy()
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::spawnSmallEnemies(std::shared_ptr<Entity> e)
 {
 	// TODO: Spawn small enemies at location of input enemy e
@@ -131,6 +359,34 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e)
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 {
 	// Add bullet object to Entity vector, then add componenets
@@ -150,12 +406,68 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity)
 {
 	// TODO: implement special weapon
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::sMovement()
 {
 	// TODO: Implement all Entity movement in this function
@@ -207,6 +519,34 @@ void Game::sMovement()
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::sLifespan()
 {
 	// TODO: Implement all lifespan functionality
@@ -244,6 +584,34 @@ void Game::sLifespan()
 }
 
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::sCollision()
 {
 	// TODO: Implement all proper collisions between entities using collision
@@ -263,6 +631,35 @@ void Game::sCollision()
 	}
 }
 
+
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::sEnemySpawner()
 {
 	if ((m_currentFrame - m_lastEnemySpawnTime) > 90)
@@ -271,6 +668,34 @@ void Game::sEnemySpawner()
 	}
 }
 
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::sRender()
 {
 	// TODO: Change code below to draw all of the Entities
@@ -294,6 +719,35 @@ void Game::sRender()
 	m_window.display();
 }
 
+
+/**********************************************************************************************************
+;**********
+;**********************************************************************************************************
+;
+;SUB-PROGRAM NAME:	TODO
+;
+;FUNCTION:
+;
+;	This method is used to...TODO
+;
+;RETURN VALUE:
+;	TODO
+;
+;LOCAL DECLARATIONS:
+;
+;	FORMAL PARAMETERS
+;	-----------------
+;	TODO
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	LOCAL SYMBOLS
+;	-------------
+;	TODO		- TODO
+;
+*/
 void Game::sUserInput()
 {
 	// TODO: Handle user input here, not that you should only be setting the 

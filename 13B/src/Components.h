@@ -1,12 +1,53 @@
+/**********************************************************************************************************
+;**********								13B Components Interface								 **********
+;**********************************************************************************************************
+;
+;PACKAGE NAME:	Components.h - 13B Components Interface
+;
+;FUNCTION:
+;
+;	This unit contains the definitions required to create the...TODO
+;
+;	All component classes are pure data, and essentially structs as all members are
+;	public, component classes have no added functionality outside of constructor.
+
+;
+;PUBLIC DECLARATIONS:
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	PUBLIC SYMBOLS
+;	--------------
+;	TODO
+;
+;	PUBLIC SUB-PROGRAMS
+;	------------------
+;	TODO
+;
+;PRIVATE DECLARATIONS:
+;
+;	USER DEFINED TYPES
+;	------------------
+;	TODO
+;
+;	PRIVATE SYMBOLS
+;	---------------
+;	TODO
+;
+;	PRIVATE SUB-PROGRAMS
+;	--------------------
+;	TODO
+;
+*/
+
 #pragma once
 
 #include <SFML/Graphics.hpp>
 #include "Vec2.h"
 
-/*------------------------------------	Components	------------------------------------
-;	All component classes are pure data, and essentially structs as all members are
-;	public, component classes have no added functionality outside of constructor.
-*/ 
+
 class CTransform
 {
 public:
