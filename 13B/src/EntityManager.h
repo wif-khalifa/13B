@@ -1,6 +1,6 @@
-/**********************************************************************************************************
-;**********								13B Entity Manager Interface							 **********
-;**********************************************************************************************************
+/*********************************************************************************************************
+;**********								13B Entity Manager Interface							**********
+;*********************************************************************************************************
 ;
 ;PACKAGE NAME:	EntityManager.h - 13B Entity Manager Interface
 ;
@@ -69,9 +69,6 @@ private:
 
 	std::vector	<std::shared_ptr<Entity>>	m_entities;
 	std::vector	<std::shared_ptr<Entity>>	m_entitiesToAdd;
-	std::vector	<std::shared_ptr<Entity>>	m_playerMapVec;
-	std::vector	<std::shared_ptr<Entity>>	m_enemyMapVec;
-	std::vector	<std::shared_ptr<Entity>>	m_bulletMapVec;
 	std::map	<std::string, EntityVec>	m_entityMap;
 
 public:
