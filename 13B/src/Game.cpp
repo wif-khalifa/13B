@@ -357,19 +357,22 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e)
 	// - Set each small enemy to the same color as the original, but half the size
 	// - Small enemies are worth double points of the original enemy
 	int		numSpawn	= e->cShape->circle.getPointCount();
-	float	theta		= 360.0f / numSpawn;
+	float	theta		= 6.28f / numSpawn;
 
-	for (int i = 0; i <= numSpawn; i++)
+	for (int i = 0; i < numSpawn; i++)
 	{
 		std::shared_ptr<Entity> entity = m_entityManager.addEntity("enemy");
+
 		entity->cTransform = std::make_shared<CTransform>(Vec2(e->cTransform->pos.x, e->cTransform->pos.y), 
-														  Vec2((e->cTransform->velocity.y / tanf(theta * i)), (tanf(theta * i) / e->cTransform->velocity.x)),
+														  Vec2((2*cosf(theta*i)), (2*sinf(theta*i))),
 														  0.0f);
+
 		entity->cShape = std::make_shared<CShape>(e->cShape->circle.getRadius() / 2, 
 												  numSpawn, 
 												  e->cShape->circle.getFillColor(), 
 												  e->cShape->circle.getOutlineColor(), 
 												  4.0f);
+
 		entity->cCollision = std::make_shared<CCollision>(e->cShape->circle.getRadius() / 2);
 		entity->cLifespan = std::make_shared<CLifespan>(90, 90);
 	}
