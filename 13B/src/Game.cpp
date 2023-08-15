@@ -361,7 +361,7 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e)
 
 	for (int i = 0; i < numSpawn; i++)
 	{
-		std::shared_ptr<Entity> entity = m_entityManager.addEntity("enemy");
+		std::shared_ptr<Entity> entity = m_entityManager.addEntity("small enemy");
 
 		entity->cTransform = std::make_shared<CTransform>(Vec2(e->cTransform->pos.x, e->cTransform->pos.y), 
 														  Vec2((2*cosf(theta*i)), (2*sinf(theta*i))),
@@ -569,7 +569,10 @@ void Game::sMovement()
 */
 void Game::sLifespan()
 {
-	int alphaRatio;
+	int32_t		alphaRatio;
+	int32_t		colorToInt;
+	int32_t		colorMask = 0xFFF0;
+	int32_t		alphaMask = 0x000F;
 
 	for (std::shared_ptr<Entity> e : m_entityManager.getEntities())
 	{
@@ -585,8 +588,17 @@ void Game::sLifespan()
 				alphaRatio = 255 * ((float)e->cLifespan->remaining / (float)e->cLifespan->total);		// Replace 255 with variable from config.txt
 
 				// Decrease alpha ratio as Entity's lifespan reaches end
-				e->cShape->circle.setFillColor(sf::Color(255, 255, 255, alphaRatio));
-				e->cShape->circle.setOutlineColor(sf::Color(255, 255, 255, alphaRatio));
+				if (e->tag() == "bullet")
+				{
+					e->cShape->circle.setFillColor(sf::Color(255, 255, 255, alphaRatio));
+					e->cShape->circle.setOutlineColor(sf::Color(255, 255, 255, alphaRatio));
+				}
+				else if (e->tag() == "small enemy")
+				{
+					colorToInt = e->cShape->circle.getFillColor().toInteger();
+					e->cShape->circle.setFillColor(sf::Color((colorToInt & colorMask) | (alphaRatio & alphaMask)));
+					e->cShape->circle.setOutlineColor(sf::Color(255, 255, 255, alphaRatio));
+				}
 			}
 			else
 			{
@@ -640,6 +652,16 @@ void Game::sCollision()
 				b->destroy();
 				e->destroy();
 				spawnSmallEnemies(e);
+			}
+		}
+
+		for (std::shared_ptr<Entity> e : m_entityManager.getEntities("small enemy"))
+		{
+			// Detect collisions between bullet and enemy Entities
+			if (b->cTransform->pos.length(e->cTransform->pos) <= (b->cCollision->radius + e->cCollision->radius))
+			{
+				b->destroy();
+				e->destroy();
 			}
 		}
 	}
