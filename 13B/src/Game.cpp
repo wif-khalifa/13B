@@ -257,14 +257,17 @@ void Game::spawnPlayer()
 
 	// Entity will have radius 32, 8 vertices, dark grey fill, and red outline with thickness 4
 	//entity->cShape = std::make_shared<CShape>(32.0f, m_playerConfig.V, sf::Color(10, 10, 10), sf::Color(255, 0, 0), 4);
-entity->cShape = std::make_shared<CShape>(32.0f, 8, sf::Color(5, 5, 5), sf::Color(255, 0, 0), 4);	// Added for testing
+	entity->cShape = std::make_shared<CShape>(32.0f, 8, sf::Color(5, 5, 5), sf::Color(255, 0, 0), 4);	// Added for testing
+	
+	// Add an input component to the player
+	entity->cInput = std::make_shared<CInput>();
 
-// Add an input component to the player
-entity->cInput = std::make_shared<CInput>();
-
-// Since we want this Entity to be our player, set our Game's player variables to be thie Entity,
-// this goes slightly against the EntityManager paradigm, but we use the player so much it's worth it.
-m_player = entity;
+	// Add score component to player Entity
+	entity->cScore = std::make_shared<CScore>(0);
+	
+	// Since we want this Entity to be our player, set our Game's player variables to be thie Entity,
+	// this goes slightly against the EntityManager paradigm, but we use the player so much it's worth it.
+	m_player = entity;
 }
 
 
@@ -651,17 +654,24 @@ void Game::sCollision()
 			{
 				b->destroy();
 				e->destroy();
+				
 				spawnSmallEnemies(e);
+
+				// Add ((100 points)*(e's #vertices))/enemy) to player score
+				m_player->cScore->score += 100 * e->cShape->circle.getPointCount();
 			}
 		}
 
 		for (std::shared_ptr<Entity> e : m_entityManager.getEntities("small enemy"))
 		{
-			// Detect collisions between bullet and enemy Entities
+			// Detect collisions between bullet and small enemy Entities
 			if (b->cTransform->pos.length(e->cTransform->pos) <= (b->cCollision->radius + e->cCollision->radius))
 			{
 				b->destroy();
 				e->destroy();
+
+				// Add ((200 points)*(e's #vertices))/enemy) to player score
+				m_player->cScore->score += 200 * e->cShape->circle.getPointCount();
 			}
 		}
 	}
