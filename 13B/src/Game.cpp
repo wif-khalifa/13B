@@ -571,8 +571,8 @@ void Game::sLifespan()
 {
 	int32_t		alphaRatio;
 	int32_t		colorToInt;
-	int32_t		colorMask = 0xFFF0;
-	int32_t		alphaMask = 0x000F;
+	int32_t		colorMask = 0xFFFFFF00;
+	int32_t		alphaMask = 0x000000FF;
 
 	for (std::shared_ptr<Entity> e : m_entityManager.getEntities())
 	{
