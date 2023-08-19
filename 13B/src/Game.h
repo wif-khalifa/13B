@@ -47,7 +47,7 @@
 
 struct PlayerConfig { int SR, CR, FR, FG, FB, OR, OG, OB, OT, V; float S; };
 struct EnemyConfig	{ int SR, CR, OR, OG, OB, OT, VMIN, VMAX, L, SI; float SMIN, SMAX; };
-struct BulletConfit { int SR, CR, FR, FG, FB, OR, OG, OB, OT, V, L; float S; };
+struct BulletConfig { int SR, CR, FR, FG, FB, OR, OG, OB, OT, V, L; float S; };
 
 class Game
 {
@@ -61,7 +61,7 @@ private:
 	
 	PlayerConfig		m_playerConfig;
 	EnemyConfig			m_enemyConfig;
-	BulletConfit		m_bulletConfig;
+	BulletConfig		m_bulletConfig;
 	
 	int					m_score					= 0;
 	int					m_currentFrame			= 0;

@@ -102,18 +102,84 @@ Game::Game(const std::string& config)
 */
 void Game::init(const std::string& path)
 {
-	// TODO: Read in config file here using pre-made PlayerConfig,
-	//		 EnemyConfig, and BulletConfig variables
-	 
-	//std::ifstream fin(path);	// Prof example, still need to do stuff with fin
+	std::ifstream	fin(path);
+	std::string		configType, fontFile; 
+	int				winWidth, winHeight, frameLimit, fontSize, rValueFont, gValueFont, bValueFont;
+	bool			fullScreen; // 1 = full screen, 0 = not full screen
 	
-	// If entry is for player, since we have player struct PlayerConfig declared do this
-	// fin >> m_playerConfig.SR >> m_playerConfig.CR >> ...
+	while (fin >> configType)
+	{
+		if (configType == "Window")
+		{
+			fin >> winWidth
+				>> winHeight
+				>> frameLimit
+				>> fullScreen;
 
-	// Set up default windown parameters, remember that last Window variable from 
-	// config file determines fullscreen vs window
-	m_window.create(sf::VideoMode(1280, 720), "Psuedo-GeoWars");
-	m_window.setFramerateLimit(60);
+			m_window.create(sf::VideoMode(winWidth, winHeight, fullScreen), "Psuedo-GeoWars");
+			m_window.setFramerateLimit(frameLimit);
+		}
+		else if (configType == "Font")
+		{
+			fin >> fontFile
+				>> fontSize
+				>> rValueFont
+				>> gValueFont
+				>> bValueFont;
+
+			if (!m_font.loadFromFile(fontFile))
+			{
+				std::cerr << "Could not load font, exiting application" << std::endl;
+			}
+			m_text.setFont(m_font);
+			m_text.setCharacterSize(fontSize);
+			m_text.setFillColor(sf::Color(rValueFont, gValueFont, bValueFont));
+		}
+		else if (configType == "Player")
+		{
+			fin >> m_playerConfig.SR
+				>> m_playerConfig.CR
+				>> m_playerConfig.S
+				>> m_playerConfig.FR
+				>> m_playerConfig.FG
+				>> m_playerConfig.FB
+				>> m_playerConfig.OR
+				>> m_playerConfig.OG
+				>> m_playerConfig.OB
+				>> m_playerConfig.OT
+				>> m_playerConfig.V;
+		}
+		else if (configType == "Enemy")
+		{
+			fin >> m_enemyConfig.SR
+				>> m_enemyConfig.CR
+				>> m_enemyConfig.SMIN
+				>> m_enemyConfig.SMAX
+				>> m_enemyConfig.OR
+				>> m_enemyConfig.OG
+				>> m_enemyConfig.OB
+				>> m_enemyConfig.OT
+				>> m_enemyConfig.VMIN
+				>> m_enemyConfig.VMAX
+				>> m_enemyConfig.L
+				>> m_enemyConfig.SI;
+		}
+		else if (configType == "Bullet")
+		{
+			fin >> m_bulletConfig.SR
+				>> m_bulletConfig.CR
+				>> m_bulletConfig.S
+				>> m_bulletConfig.FR
+				>> m_bulletConfig.FG
+				>> m_bulletConfig.FB
+				>> m_bulletConfig.OR
+				>> m_bulletConfig.OG
+				>> m_bulletConfig.OB
+				>> m_bulletConfig.OT
+				>> m_bulletConfig.V
+				>> m_bulletConfig.L;
+		}
+	}
 
 	spawnPlayer();
 
@@ -762,6 +828,8 @@ void Game::sRender()
 		m_window.draw(e->cShape->circle);
 	}
 
+	m_text.setString("SCORE: " + std::to_string(m_player->cScore->score));
+	m_window.draw(m_text);
 	m_window.display();
 }
 
