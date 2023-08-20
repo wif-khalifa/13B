@@ -105,27 +105,27 @@ void Game::init(const std::string& path)
 	std::ifstream	fin(path);
 	std::string		configType, fontFile; 
 	int				winWidth, winHeight, frameLimit, fontSize, rValueFont, gValueFont, bValueFont;
-	bool			fullScreen; // 1 = full screen, 0 = not full screen
+	bool			fullScreen; 
 	
 	while (fin >> configType)
 	{
 		if (configType == "Window")
 		{
-			fin >> winWidth
-				>> winHeight
-				>> frameLimit
-				>> fullScreen;
+			fin >> winWidth		//	window width
+				>> winHeight	//	window height
+				>> frameLimit	//	frame rate limit
+				>> fullScreen;	//	videomode 1 = full screen, 0 = window
 
 			m_window.create(sf::VideoMode(winWidth, winHeight, fullScreen), "Psuedo-GeoWars");
 			m_window.setFramerateLimit(frameLimit);
 		}
 		else if (configType == "Font")
 		{
-			fin >> fontFile
-				>> fontSize
-				>> rValueFont
-				>> gValueFont
-				>> bValueFont;
+			fin >> fontFile		//	font config file
+				>> fontSize		//	font size
+				>> rValueFont	//	font color R-value
+				>> gValueFont	//	font color G-value
+				>> bValueFont;	//	font color B-value
 
 			if (!m_font.loadFromFile(fontFile))
 			{
@@ -137,47 +137,47 @@ void Game::init(const std::string& path)
 		}
 		else if (configType == "Player")
 		{
-			fin >> m_playerConfig.SR
-				>> m_playerConfig.CR
-				>> m_playerConfig.S
-				>> m_playerConfig.FR
-				>> m_playerConfig.FG
-				>> m_playerConfig.FB
-				>> m_playerConfig.OR
-				>> m_playerConfig.OG
-				>> m_playerConfig.OB
-				>> m_playerConfig.OT
-				>> m_playerConfig.V;
+			fin >> m_playerConfig.SR	//	shape radius
+				>> m_playerConfig.CR	//	collision radius
+				>> m_playerConfig.S		//	speed
+				>> m_playerConfig.FR	//	fill color R-value
+				>> m_playerConfig.FG	//	fill color G-value
+				>> m_playerConfig.FB	//	fill color B-value
+				>> m_playerConfig.OR	//	outline color R-value
+				>> m_playerConfig.OG	//	outline color G-value
+				>> m_playerConfig.OB	//	outline color B-value
+				>> m_playerConfig.OT	//	outline color thickness
+				>> m_playerConfig.V;	//	shape vertices	
 		}
 		else if (configType == "Enemy")
 		{
-			fin >> m_enemyConfig.SR
-				>> m_enemyConfig.CR
-				>> m_enemyConfig.SMIN
-				>> m_enemyConfig.SMAX
-				>> m_enemyConfig.OR
-				>> m_enemyConfig.OG
-				>> m_enemyConfig.OB
-				>> m_enemyConfig.OT
-				>> m_enemyConfig.VMIN
-				>> m_enemyConfig.VMAX
-				>> m_enemyConfig.L
-				>> m_enemyConfig.SI;
+			fin >> m_enemyConfig.SR		//	shape redius
+				>> m_enemyConfig.CR		//	collision radius
+				>> m_enemyConfig.SMIN	//	min speed
+				>> m_enemyConfig.SMAX	//	max speed
+				>> m_enemyConfig.OR		//	outline color R-value
+				>> m_enemyConfig.OG		//	outline color G-value
+				>> m_enemyConfig.OB		//	outline color B-value
+				>> m_enemyConfig.OT		//	outline color thickness
+				>> m_enemyConfig.VMIN	//	min vertices
+				>> m_enemyConfig.VMAX	//	max vertices
+				>> m_enemyConfig.L		//	small enemy lifespan
+				>> m_enemyConfig.SI;	//	spawn interval
 		}
 		else if (configType == "Bullet")
 		{
-			fin >> m_bulletConfig.SR
-				>> m_bulletConfig.CR
-				>> m_bulletConfig.S
-				>> m_bulletConfig.FR
-				>> m_bulletConfig.FG
-				>> m_bulletConfig.FB
-				>> m_bulletConfig.OR
-				>> m_bulletConfig.OG
-				>> m_bulletConfig.OB
-				>> m_bulletConfig.OT
-				>> m_bulletConfig.V
-				>> m_bulletConfig.L;
+			fin >> m_bulletConfig.SR	//	shape radius
+				>> m_bulletConfig.CR	//	collision radius
+				>> m_bulletConfig.S		//	speed
+				>> m_bulletConfig.FR	//	fill color R-value
+				>> m_bulletConfig.FG	//	fill color G-value
+				>> m_bulletConfig.FB	//	fill color B-value
+				>> m_bulletConfig.OR	//	outline color R-value
+				>> m_bulletConfig.OG	//	outline color G-value
+				>> m_bulletConfig.OB	//	outline color B-value
+				>> m_bulletConfig.OT	//	outline color thickness
+				>> m_bulletConfig.V		//	shape vertices
+				>> m_bulletConfig.L;	//	lifespan
 		}
 	}
 
@@ -309,21 +309,22 @@ void Game::spawnPlayer()
 {
 	float mx, my;
 
-	// TODO: Finish adding all Player properties with values from config file, in code below,
-	//		 some values are hard-coded, these values should be replaced with values read in
-	//		 from config file, such as m_playerConfig.V below
-
 	// Entities are created by calling EntityManager.addEntity(tag)
 	std::shared_ptr<Entity> entity = m_entityManager.addEntity("player");
 
 	// Give Entity a transform so it spawns in center of window with velocity (1,1) and angle 0
 	mx = m_window.getSize().x / 2.0f;
 	my = m_window.getSize().y / 2.0f;
-	entity->cTransform = std::make_shared<CTransform>(Vec2(mx, my), Vec2(0.0f, 0.0f), 0.0f);
+	entity->cTransform = std::make_shared<CTransform>(	Vec2(mx, my), 
+														Vec2(0.0f, 0.0f), 
+														0.0f);
 
-	// Entity will have radius 32, 8 vertices, dark grey fill, and red outline with thickness 4
-	//entity->cShape = std::make_shared<CShape>(32.0f, m_playerConfig.V, sf::Color(10, 10, 10), sf::Color(255, 0, 0), 4);
-	entity->cShape = std::make_shared<CShape>(32.0f, 8, sf::Color(5, 5, 5), sf::Color(255, 0, 0), 4);	// Added for testing
+	// Add shape component for player Entity
+	entity->cShape = std::make_shared<CShape>(	m_playerConfig.SR, 
+												m_playerConfig.V, 
+												sf::Color(m_playerConfig.FR, m_playerConfig.FG, m_playerConfig.FB), 
+												sf::Color(m_playerConfig.OR, m_playerConfig.OG, m_playerConfig.OB), 
+												m_playerConfig.OT);
 	
 	// Add an input component to the player
 	entity->cInput = std::make_shared<CInput>();
@@ -367,22 +368,25 @@ void Game::spawnPlayer()
 */
 void Game::spawnEnemy()
 {
-	// TODO: Make sure enemy is spawned properly with the m_enemyConfig variables
-	//		 the enemy must be spawned completely within the bounds of the window
-	//
 	std::shared_ptr<Entity> entity = m_entityManager.addEntity("enemy");
 
 	// Give Entity a transform to spawn in random location
-	float ex = rand() % m_window.getSize().x + 32;	// TODO: replace radius values with SR, set bound for right side of window
-	float ey = rand() % m_window.getSize().y - 32;	// TODO: replace radius values with SR, set bound for right side of window
-	float sx = rand() % 6 - 3;	// TODO: replace velocity values with SMIN and SMAX 
-	float sy = rand() % 6 - 3;	// TODO: replace velocity values with SMIN and SMAX
-	int vert = rand() % 8 + 3;
+	float ex = rand() % m_window.getSize().x	+ m_enemyConfig.SR;
+	float ey = rand() % m_window.getSize().y	- m_enemyConfig.SR;
+	float sx = rand() % (int)m_enemyConfig.SMAX - m_enemyConfig.SMIN;
+	float sy = rand() % (int)m_enemyConfig.SMAX - m_enemyConfig.SMIN;
+	int vert = rand() % m_enemyConfig.VMAX		+ m_enemyConfig.VMAX;
 
-	// Add components to enemy Entity, TODO: populate hardcoded values from config.txt
-	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(sx, sy), 0.0f);
-	entity->cShape = std::make_shared<CShape>(32.0f, vert, sf::Color(rand() % 255, rand() % 255, rand() % 255), sf::Color(255, 255, 255), 4.0f);
-	entity->cCollision = std::make_shared<CCollision>(32.0f);
+	// Add components to enemy Entity
+	entity->cTransform	= std::make_shared<CTransform>(Vec2(ex, ey), Vec2(sx, sy), 0.0f);
+	entity->cShape		= std::make_shared<CShape>(	m_enemyConfig.SR, 
+													vert,
+													sf::Color(	rand() % m_enemyConfig.OR, 
+																rand() % m_enemyConfig.OG,
+																rand() % m_enemyConfig.OB),
+													sf::Color(255, 255, 255), 
+													m_enemyConfig.OT);
+	entity->cCollision	= std::make_shared<CCollision>(m_enemyConfig.SR);
 
 	// Record when the most recent enemy was spawned to use for determining when to spawn new enemy
 	m_lastEnemySpawnTime = m_currentFrame;
@@ -440,10 +444,10 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e)
 												  numSpawn, 
 												  e->cShape->circle.getFillColor(), 
 												  e->cShape->circle.getOutlineColor(), 
-												  4.0f);
+												  m_enemyConfig.OT);
 
 		entity->cCollision = std::make_shared<CCollision>(e->cShape->circle.getRadius() / 2);
-		entity->cLifespan = std::make_shared<CLifespan>(90, 90);
+		entity->cLifespan = std::make_shared<CLifespan>(m_enemyConfig.L, m_enemyConfig.L);
 	}
 }
 
@@ -483,15 +487,26 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 
 	// Add required components for bullet Entity
 	bullet->cTransform	= std::make_shared<CTransform>(m_player->cTransform->pos, target, 0);
-	bullet->cShape		= std::make_shared<CShape>(10, 8, sf::Color(255, 255, 255), sf::Color(255, 255, 255), 2);
-	bullet->cLifespan	= std::make_shared<CLifespan>(50, 50);
-	bullet->cCollision  = std::make_shared<CCollision>(10);
+
+	bullet->cShape		= std::make_shared<CShape>(	m_bulletConfig.SR, 
+													m_bulletConfig.V, 
+													sf::Color(	m_bulletConfig.FR, 
+																m_bulletConfig.FG, 
+																m_bulletConfig.FB),
+													sf::Color(	m_bulletConfig.OR,
+																m_bulletConfig.OG,
+																m_bulletConfig.OB),
+																m_bulletConfig.OT);
+
+	bullet->cLifespan	= std::make_shared<CLifespan>(m_bulletConfig.L, m_bulletConfig.L);
+
+	bullet->cCollision  = std::make_shared<CCollision>(m_bulletConfig.CR);
 
 	// Convert bullet velocity to unit vector
 	bullet->cTransform->velocity.normalize(m_player->cTransform->pos);
 
 	// Multiply bullet velocity vector by speed factor in config.txt
-	bullet->cTransform->velocity = bullet->cTransform->velocity * 20;	// Replace 20 with variable from config.txt
+	bullet->cTransform->velocity = bullet->cTransform->velocity * m_bulletConfig.S;	
 }
 
 
@@ -559,9 +574,6 @@ void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity)
 */
 void Game::sMovement()
 {
-	// TODO: Implement all Entity movement in this function
-	//		 - read m_player->cInput component to determine if player is moving
-
 	// Set player velocity to {0,0} at the beginning of every frame so player halts when keys released
 	m_player->cTransform->velocity = { 0,0 };
 
@@ -659,14 +671,26 @@ void Game::sLifespan()
 				// Decrease alpha ratio as Entity's lifespan reaches end
 				if (e->tag() == "bullet")
 				{
-					e->cShape->circle.setFillColor(sf::Color(255, 255, 255, alphaRatio));
-					e->cShape->circle.setOutlineColor(sf::Color(255, 255, 255, alphaRatio));
+					e->cShape->circle.setFillColor(sf::Color(	m_bulletConfig.FR, 
+																m_bulletConfig.FG, 
+																m_bulletConfig.FB, 
+																alphaRatio));
+
+					e->cShape->circle.setOutlineColor(sf::Color(m_bulletConfig.OR, 
+																m_bulletConfig.OG, 
+																m_bulletConfig.OB, 
+																alphaRatio));
 				}
 				else if (e->tag() == "small enemy")
 				{
 					colorToInt = e->cShape->circle.getFillColor().toInteger();
+
 					e->cShape->circle.setFillColor(sf::Color((colorToInt & colorMask) | (alphaRatio & alphaMask)));
-					e->cShape->circle.setOutlineColor(sf::Color(255, 255, 255, alphaRatio));
+
+					e->cShape->circle.setOutlineColor(sf::Color(m_enemyConfig.OR, 
+																m_enemyConfig.OG, 
+																m_enemyConfig.OB, 
+																alphaRatio));
 				}
 			}
 			else
@@ -774,7 +798,7 @@ void Game::sCollision()
 */
 void Game::sEnemySpawner()
 {
-	if ((m_currentFrame - m_lastEnemySpawnTime) > 90)
+	if ((m_currentFrame - m_lastEnemySpawnTime) > m_enemyConfig.SI)
 	{
 		spawnEnemy();
 	}
