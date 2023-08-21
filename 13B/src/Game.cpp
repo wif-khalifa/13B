@@ -331,6 +331,9 @@ void Game::spawnPlayer()
 
 	// Add score component to player Entity
 	entity->cScore = std::make_shared<CScore>(0);
+
+	// Add collision component to player Entity
+	entity->cCollision = std::make_shared<CCollision>(m_playerConfig.CR);
 	
 	// Since we want this Entity to be our player, set our Game's player variables to be thie Entity,
 	// this goes slightly against the EntityManager paradigm, but we use the player so much it's worth it.
@@ -386,7 +389,7 @@ void Game::spawnEnemy()
 																rand() % m_enemyConfig.OB),
 													sf::Color(255, 255, 255), 
 													m_enemyConfig.OT);
-	entity->cCollision	= std::make_shared<CCollision>(m_enemyConfig.SR);
+	entity->cCollision	= std::make_shared<CCollision>(m_enemyConfig.CR);
 
 	// Record when the most recent enemy was spawned to use for determining when to spawn new enemy
 	m_lastEnemySpawnTime = m_currentFrame;
@@ -440,13 +443,13 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e)
 														  Vec2((2*cosf(theta*i)), (2*sinf(theta*i))),
 														  0.0f);
 
-		entity->cShape = std::make_shared<CShape>(e->cShape->circle.getRadius() / 2, 
+		entity->cShape = std::make_shared<CShape>(m_enemyConfig.SR / 2,
 												  numSpawn, 
 												  e->cShape->circle.getFillColor(), 
 												  e->cShape->circle.getOutlineColor(), 
 												  m_enemyConfig.OT);
 
-		entity->cCollision = std::make_shared<CCollision>(e->cShape->circle.getRadius() / 2);
+		entity->cCollision = std::make_shared<CCollision>(m_enemyConfig.CR / 2);
 		entity->cLifespan = std::make_shared<CLifespan>(m_enemyConfig.L, m_enemyConfig.L);
 	}
 }
@@ -740,7 +743,8 @@ void Game::sCollision()
 		for (std::shared_ptr<Entity> e : m_entityManager.getEntities("enemy"))
 		{
 			// Detect collisions between bullet and enemy Entities
-			if (b->cTransform->pos.length(e->cTransform->pos) <= (b->cCollision->radius + e->cCollision->radius))
+			//if (b->cTransform->pos.length(e->cTransform->pos) <= (b->cCollision->radius + e->cCollision->radius))
+			if (b->cTransform->pos.length(e->cTransform->pos) <= (m_bulletConfig.CR + m_enemyConfig.CR))
 			{
 				b->destroy();
 				e->destroy();
@@ -755,7 +759,7 @@ void Game::sCollision()
 		for (std::shared_ptr<Entity> e : m_entityManager.getEntities("small enemy"))
 		{
 			// Detect collisions between bullet and small enemy Entities
-			if (b->cTransform->pos.length(e->cTransform->pos) <= (b->cCollision->radius + e->cCollision->radius))
+			if (b->cTransform->pos.length(e->cTransform->pos) <= (m_bulletConfig.CR + (m_enemyConfig.CR / 2)))
 			{
 				b->destroy();
 				e->destroy();
@@ -763,6 +767,19 @@ void Game::sCollision()
 				// Add ((200 points)*(e's #vertices))/enemy) to player score
 				m_player->cScore->score += 200 * e->cShape->circle.getPointCount();
 			}
+		}
+	}
+
+	for (std::shared_ptr<Entity> e : m_entityManager.getEntities("enemy"))
+	{
+		// Detect collisions between player and enemy Entities
+		if (m_player->cTransform->pos.length(e->cTransform->pos) <= (m_playerConfig.CR + m_enemyConfig.CR))
+		{
+			m_player->destroy();
+			e->destroy();
+
+			// Add ((200 points)*(e's #vertices))/enemy) to player score
+			m_player->cScore->score = 0;
 		}
 	}
 }
