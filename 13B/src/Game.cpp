@@ -778,8 +778,7 @@ void Game::sCollision()
 			m_player->destroy();
 			e->destroy();
 
-			// Add ((200 points)*(e's #vertices))/enemy) to player score
-			m_player->cScore->score = 0;
+			spawnSmallEnemies(e);
 		}
 	}
 }
@@ -925,20 +924,19 @@ void Game::sUserInput()
 			switch (event.key.code)
 			{
 			case sf::Keyboard::W:
-				std::cout << "W key pressed" << std::endl;
 				m_player->cInput->up = true;
 				break;
 			case sf::Keyboard::S:
-				std::cout << "S key pressed" << std::endl;
 				m_player->cInput->down = true;
 				break;
 			case sf::Keyboard::A:
-				std::cout << "A key pressed" << std::endl;
 				m_player->cInput->left = true;
 				break;
 			case sf::Keyboard::D:
-				std::cout << "D key pressed" << std::endl;
 				m_player->cInput->right = true;
+			case sf::Keyboard::Enter:
+				if (!m_player->isActive())
+					spawnPlayer();
 			default: break;
 			}
 		}
@@ -949,19 +947,15 @@ void Game::sUserInput()
 			switch (event.key.code)
 			{
 			case sf::Keyboard::W:
-				std::cout << "W key released" << std::endl;
 				m_player->cInput->up = false;
 				break;
 			case sf::Keyboard::S:
-				std::cout << "S key released" << std::endl;
 				m_player->cInput->down = false;
 				break;
 			case sf::Keyboard::A:
-				std::cout << "A key released" << std::endl;
 				m_player->cInput->left = false;
 				break;
 			case sf::Keyboard::D:
-				std::cout << "D key released" << std::endl;
 				m_player->cInput->right = false;
 			default: break;
 			}
@@ -969,10 +963,8 @@ void Game::sUserInput()
 		;
 		if (event.type == sf::Event::MouseButtonPressed)
 		{
-			if (event.mouseButton.button == sf::Mouse::Left)
+			if (event.mouseButton.button == sf::Mouse::Left && m_player->isActive())
 			{
-				// remove coordinate printing for final version
-				std::cout << "Left mouse button clicked at (" << event.mouseButton.x << "," << event.mouseButton.y << ")" << std::endl;
 				spawnBullet(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
 			}
 
