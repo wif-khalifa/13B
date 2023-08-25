@@ -232,9 +232,9 @@ void Game::run()
 			sMovement();
 			sCollision();
 			sLifespan();
-			sUserInput();
 		}
 
+		sUserInput();
 		sRender();
 
 		// Increment current frame, may need to be moved when gameplay is paused
@@ -934,9 +934,17 @@ void Game::sUserInput()
 				break;
 			case sf::Keyboard::D:
 				m_player->cInput->right = true;
-			case sf::Keyboard::Enter:
+				break;
+			case sf::Keyboard::Space:
 				if (!m_player->isActive())
 					spawnPlayer();
+				break;
+			case sf::Keyboard::Enter:
+				if (!m_paused)
+					m_paused = true;
+				else
+					m_paused = false;
+				break;
 			default: break;
 			}
 		}
