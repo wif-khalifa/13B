@@ -134,6 +134,11 @@ void Game::init(const std::string& path)
 			m_text.setFont(m_font);
 			m_text.setCharacterSize(fontSize);
 			m_text.setFillColor(sf::Color(rValueFont, gValueFont, bValueFont));
+
+			m_pauseText.setFont(m_font);
+			m_pauseText.setCharacterSize(fontSize);
+			m_pauseText.setFillColor(sf::Color(rValueFont, gValueFont, bValueFont));
+			m_pauseText.setString("PAUSED");
 		}
 		else if (configType == "Player")
 		{
@@ -773,12 +778,22 @@ void Game::sCollision()
 	for (std::shared_ptr<Entity> e : m_entityManager.getEntities("enemy"))
 	{
 		// Detect collisions between player and enemy Entities
-		if (m_player->cTransform->pos.length(e->cTransform->pos) <= (m_playerConfig.CR + m_enemyConfig.CR))
+		if (m_player->isActive() && (m_player->cTransform->pos.length(e->cTransform->pos) <= (m_playerConfig.CR + m_enemyConfig.CR)))
 		{
 			m_player->destroy();
 			e->destroy();
 
 			spawnSmallEnemies(e);
+		}
+	}
+
+	for (std::shared_ptr<Entity> e : m_entityManager.getEntities("small enemy"))
+	{
+		// Detect collisions between player and enemy Entities
+		if (m_player->isActive() && (m_player->cTransform->pos.length(e->cTransform->pos) <= (m_playerConfig.CR + e->cShape->circle.getRadius())))
+		{
+			m_player->destroy();
+			e->destroy();
 		}
 	}
 }
@@ -866,6 +881,13 @@ void Game::sRender()
 
 		// Draw the Entity's sf::CircleShape
 		m_window.draw(e->cShape->circle);
+	}
+
+	if (m_paused)
+	{
+		m_pauseText.setPosition((m_window.getSize().x / 2) - (m_pauseText.getLocalBounds().width / 2),
+								(m_window.getSize().y / 2) - (m_pauseText.getLocalBounds().height));
+		m_window.draw(m_pauseText);
 	}
 
 	m_text.setString("SCORE: " + std::to_string(m_player->cScore->score));

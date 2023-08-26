@@ -58,6 +58,7 @@ private:
 	sf::RenderWindow	m_window;			// Window we will draw to
 	sf::Font			m_font;				// Font used to draw
 	sf::Text			m_text;				// Score text to be drawn to screen
+	sf::Text			m_pauseText;		// Pause screen text
 	
 	PlayerConfig		m_playerConfig;
 	EnemyConfig			m_enemyConfig;
