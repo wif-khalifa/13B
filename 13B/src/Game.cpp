@@ -139,6 +139,8 @@ void Game::init(const std::string& path)
 			m_pauseText.setCharacterSize(fontSize);
 			m_pauseText.setFillColor(sf::Color(rValueFont, gValueFont, bValueFont));
 			m_pauseText.setString("PAUSED");
+			m_pauseText.setPosition((m_window.getSize().x / 2) - (m_pauseText.getLocalBounds().width / 2),
+									(m_window.getSize().y / 2) - (m_pauseText.getLocalBounds().height));
 		}
 		else if (configType == "Player")
 		{
@@ -383,7 +385,7 @@ void Game::spawnEnemy()
 	float ey = rand() % m_window.getSize().y	- m_enemyConfig.SR;
 	float sx = rand() % (int)m_enemyConfig.SMAX - m_enemyConfig.SMIN;
 	float sy = rand() % (int)m_enemyConfig.SMAX - m_enemyConfig.SMIN;
-	int vert = rand() % m_enemyConfig.VMAX		+ m_enemyConfig.VMAX;
+	int vert = rand() % m_enemyConfig.VMAX		+ m_enemyConfig.VMIN;
 
 	// Add components to enemy Entity
 	entity->cTransform	= std::make_shared<CTransform>(Vec2(ex, ey), Vec2(sx, sy), 0.0f);
@@ -885,8 +887,6 @@ void Game::sRender()
 
 	if (m_paused)
 	{
-		m_pauseText.setPosition((m_window.getSize().x / 2) - (m_pauseText.getLocalBounds().width / 2),
-								(m_window.getSize().y / 2) - (m_pauseText.getLocalBounds().height));
 		m_window.draw(m_pauseText);
 	}
 
