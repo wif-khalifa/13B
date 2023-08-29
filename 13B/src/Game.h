@@ -75,7 +75,6 @@ private:
 
 	// Systems Declarations
 	void init(const std::string& config);		// Initialize GameState with config file path
-	void setPaused(bool paused);				// Pause game
 
 	void sMovement();							// System: Entity position / movement update
 	void sUserInput();							// System: User input			

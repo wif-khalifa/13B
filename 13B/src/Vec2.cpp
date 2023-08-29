@@ -365,7 +365,7 @@ double Vec2::length(const Vec2& rhs) const
 ;	TODO		- TODO
 ;
 */
-void Vec2::normalize(const Vec2& rhs)// const			
+void Vec2::normalize(const Vec2& rhs)		
 {
 	double length = this->length(rhs);
 	this->x = (this->x - rhs.x) / length; 

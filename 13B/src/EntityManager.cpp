@@ -310,8 +310,5 @@ const EntityVec& EntityManager::getEntities()
 */
 const std::vector<std::shared_ptr<Entity>>& EntityManager::getEntities(const std::string& tag)
 {
-	// TODO: This is incorrect, return the correct vector from the map,
-	// code updated from original, this may be all that's needed, need
-	// to confirm
 	return m_entityMap[tag];
 }
