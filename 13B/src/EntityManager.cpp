@@ -79,40 +79,6 @@ EntityManager::EntityManager()
 
 
 /*********************************************************************************************************
-;**********									EntityManager::init									**********
-;*********************************************************************************************************
-;
-;SUB-PROGRAM NAME:	EntityManager::init - Initialize EntityManager object
-;
-;FUNCTION:
-;
-;	This method is used to initialize the EntityManager object
-;
-;RETURN VALUE:
-;	void.
-;
-;LOCAL DECLARATIONS:
-;
-;	FORMAL PARAMETERS
-;	-----------------
-;	None
-;
-;	USER DEFINED TYPES
-;	------------------
-;	None
-;
-;	LOCAL SYMBOLS
-;	-------------
-;	exampleVar1		- Var that does blah
-;	exampleVar2		- Var that does blah
-*/
-void EntityManager::init()
-{
-	// TODO
-}
-
-
-/*********************************************************************************************************
 ;**********									EntityManager::update								**********
 ;*********************************************************************************************************
 ;

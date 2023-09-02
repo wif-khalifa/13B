@@ -72,7 +72,6 @@ public:
 
 	EntityManager();
 	
-	void init();
 	void update();
 	void removeDeadEntities(std::vector<std::shared_ptr<Entity>>& vec);
 

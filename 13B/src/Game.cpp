@@ -514,9 +514,50 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 ;	TODO		- TODO
 ;
 */
-void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity)
+void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity, const Vec2& target)
 {
-	// TODO: implement special weapon
+	int numVertices			= 20;
+	int initialRadius		= 2;
+	int finalRadius			= 20;
+	int collisionRadius		= 10;
+	int outlineThickness	= 1;
+	int outlineR			= 255;
+	int outlineG			= 255;
+	int outlineB			= 255;
+	int fillR				= 0;
+	int fillG				= 0;
+	int fillB				= 0;
+	int lifespan			= 100;
+	int speed				= 20;
+
+	std::shared_ptr<Entity> specialWeapon = m_entityManager.addEntity("special weapon");
+
+	specialWeapon->cTransform = std::make_shared<CTransform>(m_player->cTransform->pos, target, 0);
+
+	specialWeapon->cShape = std::make_shared<CShape>(	initialRadius,
+														numVertices,
+														sf::Color(	fillR,
+																	fillG,
+																	fillB),
+														sf::Color(	outlineR,
+																	outlineG,
+																	outlineB),
+																	outlineThickness);
+
+	specialWeapon->cLifespan = std::make_shared<CLifespan>(lifespan, lifespan);
+
+	specialWeapon->cCollision = std::make_shared<CCollision>(collisionRadius);
+
+	// Convert special weapon velocity to unit vector
+	specialWeapon->cTransform->velocity.normalize(m_player->cTransform->pos);
+
+	// Multiple special weapon velocity vector by speed factor
+	specialWeapon->cTransform->velocity = specialWeapon->cTransform->velocity * speed;
+
+	// TODO:	Create special weapon expand/retract animation function
+	//			Create special weapon velocity flip function
+	//			Create special weapon collision logic
+	//			Create special weapon lifespan logic
 }
 
 
@@ -966,8 +1007,7 @@ void Game::sUserInput()
 
 			if (event.mouseButton.button == sf::Mouse::Right)
 			{
-				std::cout << "Right mouse button clicked at (" << event.mouseButton.x << "," << event.mouseButton.y << ")" << std::endl;
-				// TODO: Call spawnSpecialWeapon() here
+				spawnSpecialWeapon(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
 			}
 		}
 	}
