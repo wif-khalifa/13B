@@ -21,12 +21,12 @@
 ;	PUBLIC SUB-PROGRAMS
 ;	------------------
 ;	EntityManager::EntityManager		- Default Constructor
-;	EntityManager::init					- TODO
-;	EntityManager::update				- TODO
-;	EntityManager::removeDeadEntities	- TODO
-;	EntityManager::addEntity			- TODO
-;	EntityManager::getEntities			- TODO
-;	EntityManager::getEntities			- TODO
+;	EntityManager::init					- Initializes Entity Manager
+;	EntityManager::update				- Updates all Entity map and vectors each frame
+;	EntityManager::removeDeadEntities	- Removes dead Entities from map and vectors each frame
+;	EntityManager::addEntity			- Adds newly spawned Entities to map and vectors
+;	EntityManager::getEntities			- Returns all Entities in Entity vector
+;	EntityManager::getEntities			- Returns vector with specified tag from Entity map
 ;
 ;PRIVATE DECLARATIONS:
 ;
@@ -36,13 +36,10 @@
 ;
 ;	PRIVATE SYMBOLS
 ;	---------------
-;	m_totalEntities		- TODO
-;	m_entities			- TODO
-;	m_entitiesToAdd		- TODO
-;	m_playerMapVec		- TODO
-;	m_enemyMapVec		- TODO
-;	m_bulletMapVec		- TODO
-;	m_entityMap			- TODO
+;	m_totalEntities		- Integer holding running count of Entity instances
+;	m_entities			- Vector of pointers to all Entity instances
+;	m_entitiesToAdd		- Vector for holding new Entities until next frame
+;	m_entityMap			- Hash map for holding Entity vectors based on Entity type
 ;
 ;	PRIVATE SUB-PROGRAMS
 ;	--------------------
