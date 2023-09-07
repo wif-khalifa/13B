@@ -548,11 +548,6 @@ void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity, const Vec2& target
 
 	// Multiple special weapon velocity vector by speed factor
 	specialWeapon->cTransform->velocity = specialWeapon->cTransform->velocity * speed;
-
-	// TODO:	Create special weapon expand/retract animation function
-	//			Create special weapon velocity flip function
-	//			Create special weapon collision logic
-	//			Create special weapon lifespan logic
 }
 
 
@@ -588,7 +583,6 @@ void Game::activateSpecialWeapon(std::shared_ptr<Entity> e, int radius)
 {
 	if (e->cShape->circle.getRadius() < radius)
 	{
-		std::cout << "radius" << std::endl;
 		e->cShape->circle.setRadius(e->cShape->circle.getRadius() + 1);
 	}
 }
@@ -700,7 +694,7 @@ void Game::sMovement()
 */
 void Game::sLifespan()
 {
-	int			finalRadius = 20;
+	int			finalRadius = 80;
 	int32_t		alphaRatio;
 	int32_t		colorToInt;
 	int32_t		colorMask = 0xFFFFFF00;
@@ -802,7 +796,6 @@ void Game::sCollision()
 		for (std::shared_ptr<Entity> e : m_entityManager.getEntities("enemy"))
 		{
 			// Detect collisions between bullet and enemy Entities
-			// if (b->cTransform->pos.length(e->cTransform->pos) <= (b->cCollision->radius + e->cCollision->radius))
 			if (b->cTransform->pos.length(e->cTransform->pos) <= (m_bulletConfig.CR + m_enemyConfig.CR))
 			{
 				b->destroy();
@@ -836,10 +829,24 @@ void Game::sCollision()
 		{
 			toVector = w->cTransform->pos.length(e->cTransform->pos);
 
-			if (toVector <= (m_enemyConfig.SR * 2))
+			if (toVector <= w->cShape->circle.getRadius() + m_enemyConfig.CR)
 			{
-				// Redirect enemies within range of special weapon toward special weapon
-				e->cTransform->velocity.x = -1;
+				e->destroy();
+				spawnSmallEnemies(e);
+			}
+		}
+	}
+
+	// Execute special weapon logic for nearby enemies
+	for (std::shared_ptr<Entity> w : m_entityManager.getEntities("special weapon"))
+	{
+		for (std::shared_ptr<Entity> e : m_entityManager.getEntities("small enemy"))
+		{
+			toVector = w->cTransform->pos.length(e->cTransform->pos);
+
+			if (toVector <= w->cShape->circle.getRadius() + e->cShape->circle.getRadius())
+			{
+				e->destroy();
 			}
 		}
 	}
@@ -1057,8 +1064,8 @@ void Game::sUserInput()
 			default: break;
 			}
 		}
-		;
-		if (event.type == sf::Event::MouseButtonPressed)
+		
+		if (event.type == sf::Event::MouseButtonPressed && m_player->isActive())
 		{
 			if (event.mouseButton.button == sf::Mouse::Left && m_player->isActive())
 			{
