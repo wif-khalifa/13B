@@ -1000,10 +1000,19 @@ void Game::sRender()
 */
 void Game::sUserInput()
 {
-	// TODO: Handle user input here, not that you should only be setting the 
-	//		 player's input command variables here, you should not implement
-	//		 the player's movement logic here, the movement system will read
-	//		 the variables you set in this function
+	static int	coolDown		= 100;
+	static bool specialActive	= false;
+
+	if (specialActive)
+	{
+		coolDown--;
+
+		if (coolDown <= 0)
+		{
+			coolDown	  = 6000;
+			specialActive = false;
+		}
+	} 
 
 	sf::Event event;
 	while (m_window.pollEvent(event))
@@ -1072,9 +1081,10 @@ void Game::sUserInput()
 				spawnBullet(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
 			}
 
-			if (event.mouseButton.button == sf::Mouse::Right)
+			if (event.mouseButton.button == sf::Mouse::Right && specialActive != true)
 			{
 				spawnSpecialWeapon(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
+				specialActive = true;
 			}
 		}
 	}
