@@ -1000,17 +1000,18 @@ void Game::sRender()
 */
 void Game::sUserInput()
 {
-	static int	coolDown		= 100;
-	static bool specialActive	= false;
+	static int	coolDown		= 200;		// Cool down timer for special weapon
+	static bool specialActive	= false;	// Special weapon active flag
 
 	if (specialActive)
 	{
 		coolDown--;
 
-		if (coolDown <= 0)
+		if (coolDown <= 0 || m_player->isActive() == false)
 		{
-			coolDown	  = 6000;
+			coolDown	  = 200;
 			specialActive = false;
+			std::cout << specialActive << coolDown << std::endl;
 		}
 	} 
 
@@ -1085,6 +1086,7 @@ void Game::sUserInput()
 			{
 				spawnSpecialWeapon(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
 				specialActive = true;
+				std::cout << specialActive << coolDown << std::endl;
 			}
 		}
 	}
