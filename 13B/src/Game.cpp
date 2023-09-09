@@ -116,8 +116,8 @@ void Game::init(const std::string& path)
 				>> frameLimit	//	frame rate limit
 				>> fullScreen;	//	videomode 1 = full screen, 0 = window
 
-			m_window.create(sf::VideoMode(winWidth, winHeight, fullScreen), "Psuedo-GeoWars");
-			m_window.setFramerateLimit(frameLimit);
+			m_window.create(sf::VideoMode	(winWidth, winHeight, fullScreen), "Psuedo-GeoWars");
+			m_window.setFramerateLimit		(frameLimit);
 		}
 		else if (configType == "Font")
 		{
@@ -135,12 +135,12 @@ void Game::init(const std::string& path)
 			m_text.setCharacterSize(fontSize);
 			m_text.setFillColor(sf::Color(rValueFont, gValueFont, bValueFont));
 
-			m_pauseText.setFont(m_font);
+			m_pauseText.setFont			(m_font);
 			m_pauseText.setCharacterSize(fontSize);
-			m_pauseText.setFillColor(sf::Color(rValueFont, gValueFont, bValueFont));
-			m_pauseText.setString("PAUSED");
-			m_pauseText.setPosition((m_window.getSize().x / 2) - (m_pauseText.getLocalBounds().width / 2),
-									(m_window.getSize().y / 2) - (m_pauseText.getLocalBounds().height));
+			m_pauseText.setFillColor	(sf::Color(rValueFont, gValueFont, bValueFont));
+			m_pauseText.setString		("PAUSED");
+			m_pauseText.setPosition		((m_window.getSize().x / 2) - (m_pauseText.getLocalBounds().width / 2),
+										 (m_window.getSize().y / 2) - (m_pauseText.getLocalBounds().height));
 		}
 		else if (configType == "Player")
 		{
@@ -1011,9 +1011,26 @@ void Game::sUserInput()
 		{
 			coolDown	  = 200;
 			specialActive = false;
-			std::cout << specialActive << coolDown << std::endl;
 		}
 	} 
+
+	// Halt player motion to prevent going out of window
+//if (m_player->cShape->circle.getPosition().x - m_player->cShape->circle.getRadius() < 0)
+//{
+//	m_player->cInput->left = false;
+//}
+//else if (m_player->cShape->circle.getPosition().x + m_player->cShape->circle.getRadius() > m_window.getSize().x)
+//{
+//	m_player->cInput->right = false;
+//}
+//else if (m_player->cShape->circle.getPosition().y - m_player->cShape->circle.getRadius() < 0) 
+//{
+//	m_player->cInput->up = false;
+//}
+//else if (m_player->cShape->circle.getPosition().y + m_player->cShape->circle.getRadius() > m_window.getSize().y)
+//{
+//	m_player->cInput->down = false;
+//}
 
 	sf::Event event;
 	while (m_window.pollEvent(event))
@@ -1030,16 +1047,44 @@ void Game::sUserInput()
 			switch (event.key.code)
 			{
 			case sf::Keyboard::W:
-				m_player->cInput->up = true;
+				if (!(m_player->cShape->circle.getPosition().y - m_player->cShape->circle.getRadius() < 0))
+				{
+					m_player->cInput->up = true;
+				}
+				else
+				{
+					m_player->cInput->up = false;
+				}
 				break;
 			case sf::Keyboard::S:
-				m_player->cInput->down = true;
+				if (!(m_player->cShape->circle.getPosition().y + m_player->cShape->circle.getRadius() > m_window.getSize().y))
+				{
+					m_player->cInput->down = true;
+				}
+				else
+				{
+					m_player->cInput->down = false;
+				}
 				break;
 			case sf::Keyboard::A:
-				m_player->cInput->left = true;
+				if (!(m_player->cShape->circle.getPosition().x - m_player->cShape->circle.getRadius() < 0))
+				{
+					m_player->cInput->left = true;
+				}
+				else
+				{
+					m_player->cInput->left = false;
+				}
 				break;
 			case sf::Keyboard::D:
-				m_player->cInput->right = true;
+				if (!(m_player->cShape->circle.getPosition().x + m_player->cShape->circle.getRadius() > m_window.getSize().x))
+				{
+					m_player->cInput->right = true;
+				}
+				else
+				{
+					m_player->cInput->right = false;
+				}
 				break;
 			case sf::Keyboard::Space:
 				if (!m_player->isActive())
@@ -1086,7 +1131,6 @@ void Game::sUserInput()
 			{
 				spawnSpecialWeapon(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
 				specialActive = true;
-				std::cout << specialActive << coolDown << std::endl;
 			}
 		}
 	}

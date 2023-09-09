@@ -365,31 +365,9 @@ double Vec2::length(const Vec2& rhs) const
 ;	TODO		- TODO
 ;
 */
-void Vec2::normalize(const Vec2& rhs)		
+void Vec2::normalize(const Vec2& rhs)	
 {
 	double length = this->length(rhs);
 	this->x = (this->x - rhs.x) / length; 
 	this->y = (this->y - rhs.y) / length;
 }
-
-/* Implement later, maybe
-Vec2 Vec2::operator += (const Vec2& rhs) const
-{
-	return Vec2(x + rhs.x, y + rhs.y);
-}
-
-void Vec2::operator -= (const Vec2& rhs) const
-{
-	// TODO
-}
-
-void Vec2::operator /= (const Vec2& rhs) const
-{
-	// TODO
-}
-
-void Vec2::operator *= (const Vec2& rhs) const
-{
-	// TODO
-}
-*/

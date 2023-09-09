@@ -38,7 +38,4 @@ int main()
 {
 	Game g("config.txt");
 	g.run();
-
-	/*-----------------------	Test Code (delete later) -----------------------*/
-
 }
