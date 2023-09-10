@@ -224,15 +224,10 @@ void Game::init(const std::string& path)
 */
 void Game::run()
 {
-	// TODO: Add pause functionality here, some systems should function
-	//		 while paused (rendering), some systems shouldn't (movement / input)
 	while (m_running)
 	{
 		m_entityManager.update();
 
-		// This is not a definitive list of functions that should be called (or not called) 
-		// when paused. However, this seems mostly correct minus sUserInput, can't unpause 
-		// game without user input
 		if (!m_paused)
 		{
 			sEnemySpawner();
@@ -1014,24 +1009,6 @@ void Game::sUserInput()
 		}
 	} 
 
-	// Halt player motion to prevent going out of window
-//if (m_player->cShape->circle.getPosition().x - m_player->cShape->circle.getRadius() < 0)
-//{
-//	m_player->cInput->left = false;
-//}
-//else if (m_player->cShape->circle.getPosition().x + m_player->cShape->circle.getRadius() > m_window.getSize().x)
-//{
-//	m_player->cInput->right = false;
-//}
-//else if (m_player->cShape->circle.getPosition().y - m_player->cShape->circle.getRadius() < 0) 
-//{
-//	m_player->cInput->up = false;
-//}
-//else if (m_player->cShape->circle.getPosition().y + m_player->cShape->circle.getRadius() > m_window.getSize().y)
-//{
-//	m_player->cInput->down = false;
-//}
-
 	sf::Event event;
 	while (m_window.pollEvent(event))
 	{
@@ -1047,6 +1024,7 @@ void Game::sUserInput()
 			switch (event.key.code)
 			{
 			case sf::Keyboard::W:
+				// Ensure player Entity has not reach window edge 
 				if (!(m_player->cShape->circle.getPosition().y - m_player->cShape->circle.getRadius() < 0))
 				{
 					m_player->cInput->up = true;

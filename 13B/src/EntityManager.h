@@ -6,13 +6,13 @@
 ;
 ;FUNCTION:
 ;
-;	This unit contains the definitions required to create the 13B Entity Manager object.
+;	This unit contains the declarations required to create the 13B Entity Manager object.
 ;
 ;PUBLIC DECLARATIONS:
 ;
 ;	USER DEFINED TYPES
 ;	------------------
-;	EntityManager	- 13B Entity Manager class
+;	EntityManager - 13B Entity Manager class
 ;
 ;	PUBLIC SYMBOLS
 ;	--------------

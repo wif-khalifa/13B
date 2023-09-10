@@ -1,27 +1,35 @@
 /*********************************************************************************************************
-;**********
+;**********								13B Entity Manager Interface
 ;*********************************************************************************************************
 ;
-;PACKAGE NAME:	TODO
+;PACKAGE NAME:	Entity.h - 13B Entity Interface
 ;
 ;FUNCTION:
 ;
-;	This unit contains the definitions required to create the...TODO
+;	This unit contains the declarations required to create the 13B Entity object.
 ;
 ;
 ;PUBLIC DECLARATIONS:
 ;
 ;	USER DEFINED TYPES
 ;	------------------
-;	TODO
+;	Entity - 13B Entity class
 ;
 ;	PUBLIC SYMBOLS
 ;	--------------
-;	TODO
+;	Entity::cTransform - Transform component to be attached to Entity
+;	Entity::cShape	   - Shape component for attachment to Entity
+;	Entity::cCollision - Collision component for attachment to Entity
+;	Entity::cInput	   - Input component for attachment to Entity
+;	Entity::cScore	   - Score component for attachment to Entity
+;	Entity::cLifespan  - Lifespan component for attachment to Entity
 ;
 ;	PUBLIC SUB-PROGRAMS
 ;	------------------
-;	TODO
+;	Entity::isActive - Return boolean indicating whether Entity is active		
+;	Entity::tag		 - Return string used for identifying Entity type
+;	Entity::id		 - Return size_t used for numerical identification of Entity
+;	Entity::destroy	 - Set Entity active flag to false
 ;
 ;PRIVATE DECLARATIONS:
 ;
@@ -31,11 +39,13 @@
 ;
 ;	PRIVATE SYMBOLS
 ;	---------------
-;	TODO
+;	m_active - Boolean indicating whether Entity is active
+;	m_tag	 - String used for identifying Entity type
+;	m_id	 - size_t used for numerical identification of Entity
 ;
 ;	PRIVATE SUB-PROGRAMS
 ;	--------------------
-;	TODO
+;	Entity::Entity - Constructor
 ;
 */
 
