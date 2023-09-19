@@ -18,22 +18,19 @@
 ;	------------------
 ;	EntityManager::EntityManager		- Default Constructor
 ;	EntityManager::update				- Adds/removes Entity objects from vectors/map
-;	EntityManager::removeDeadEntities	- TODO
-;	EntityManager::addEntity			- TODO
-;	EntityManager::getEntities			- TODO
-;	EntityManager::getEntities			- TODO
+;	EntityManager::removeDeadEntities	- Check if Entity active, remove if false
+;	EntityManager::addEntity			- Construct new Entity objects
+;	EntityManager::getEntities			- Return all Entities in Entity vector
+;	EntityManager::getEntities			- Return all Entities in vector with supplied ID
 ;
 ;PRIVATE DECLARATIONS:
 ;
 ;	PRIVATE SYMBOLS
 ;	---------------
-;	m_totalEntities		- TODO
-;	m_entities			- TODO
-;	m_entitiesToAdd		- TODO
-;	m_playerMapVec		- TODO
-;	m_enemyMapVec		- TODO
-;	m_bulletMapVec		- TODO
-;	m_entityMap			- TODO
+;	m_totalEntities		- Running count of Entity objects
+;	m_entities			- Main Entity object vector
+;	m_entitiesToAdd		- Temporary vector for holding Entity objects until next frame
+;	m_entityMap			- Map for holding Entity vectors organized by tag
 ;
 ;	PRIVATE SUB-PROGRAMS
 ;	--------------------
@@ -140,28 +137,29 @@ void EntityManager::update()
 ;**********							EntityManager::removeDeadEntities							**********
 ;*********************************************************************************************************
 ;
-;SUB-PROGRAM NAME:	TODO
+;SUB-PROGRAM NAME:	EntityManager::removeDeadEntities
 ;
 ;FUNCTION:
 ;
-;	This method is used to...TODO
+;	This method is used to check the active flag for all Entity objects in the Entity vector, then
+;	remove entities from vector if active flag is false.
 ;
 ;RETURN VALUE:
-;	TODO
+;	void
 ;
 ;LOCAL DECLARATIONS:
 ;
 ;	FORMAL PARAMETERS
 ;	-----------------
-;	TODO
+;	std::vector<std::shared_ptr<Entity>>&
 ;
 ;	USER DEFINED TYPES
 ;	------------------
-;	TODO
+;	None
 ;
 ;	LOCAL SYMBOLS
 ;	-------------
-;	TODO		- TODO
+;	None
 ;
 */
 void EntityManager::removeDeadEntities(std::vector<std::shared_ptr<Entity>>& vec)
@@ -178,35 +176,36 @@ void EntityManager::removeDeadEntities(std::vector<std::shared_ptr<Entity>>& vec
 ;**********								EntityManager::addEntity								**********
 ;*********************************************************************************************************
 ;
-;SUB-PROGRAM NAME:	TODO
+;SUB-PROGRAM NAME:	EntityManager::addEntity
 ;
 ;FUNCTION:
 ;
-;	This method is used to...TODO
+;	This method is used to construct new Entity objects and add them to the temporary Entity holding 
+;	vector.
 ;
 ;RETURN VALUE:
-;	TODO
+;	std::shared_ptr<Entity>
 ;
 ;LOCAL DECLARATIONS:
 ;
 ;	FORMAL PARAMETERS
 ;	-----------------
-;	TODO
+;	std::string&
 ;
 ;	USER DEFINED TYPES
 ;	------------------
-;	TODO
+;	None
 ;
 ;	LOCAL SYMBOLS
 ;	-------------
-;	TODO		- TODO
+;	None
 ;
 */
 std::shared_ptr<Entity> EntityManager::addEntity(const std::string& tag)
 {
 	std::shared_ptr<Entity> entity = std::shared_ptr<Entity>(new Entity(m_totalEntities++, tag));
 
-	m_entitiesToAdd.push_back(entity);
+	m_entitiesToAdd.push_back(entity); 
 
 	return entity;
 }
@@ -216,28 +215,28 @@ std::shared_ptr<Entity> EntityManager::addEntity(const std::string& tag)
 ;**********								EntityManager::getEntities								**********
 ;*********************************************************************************************************
 ;
-;SUB-PROGRAM NAME:	TODO
+;SUB-PROGRAM NAME:	EntityManager::getEntities
 ;
 ;FUNCTION:
 ;
-;	This method is used to...TODO
+;	This method is used to return all Entity objects in Entity vector.
 ;
 ;RETURN VALUE:
-;	TODO
+;	std::vector<std::shared_ptr<Entity>>&
 ;
 ;LOCAL DECLARATIONS:
 ;
 ;	FORMAL PARAMETERS
 ;	-----------------
-;	TODO
+;	None
 ;
 ;	USER DEFINED TYPES
 ;	------------------
-;	TODO
+;	None
 ;
 ;	LOCAL SYMBOLS
 ;	-------------
-;	TODO		- TODO
+;	None
 ;
 */
 const EntityVec& EntityManager::getEntities()
@@ -250,28 +249,28 @@ const EntityVec& EntityManager::getEntities()
 ;**********								EntityManager::getEntities								**********
 ;*********************************************************************************************************
 ;
-;SUB-PROGRAM NAME:	TODO
+;SUB-PROGRAM NAME:	EntityManager::getEntities
 ;
 ;FUNCTION:
 ;
-;	This method is used to...TODO
+;	This method is used to return all Entitie objects with the specified tag from map.
 ;
 ;RETURN VALUE:
-;	TODO
+;	std::vector<std::shared_ptr<Entity>>&
 ;
 ;LOCAL DECLARATIONS:
 ;
 ;	FORMAL PARAMETERS
 ;	-----------------
-;	TODO
+;	std::string&
 ;
 ;	USER DEFINED TYPES
 ;	------------------
-;	TODO
+;	None
 ;
 ;	LOCAL SYMBOLS
 ;	-------------
-;	TODO		- TODO
+;	None
 ;
 */
 const std::vector<std::shared_ptr<Entity>>& EntityManager::getEntities(const std::string& tag)
