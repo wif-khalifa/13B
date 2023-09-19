@@ -17,8 +17,7 @@
 ;	PUBLIC SUB-PROGRAMS
 ;	------------------
 ;	EntityManager::EntityManager		- Default Constructor
-;	EntityManager::init					- TODO
-;	EntityManager::update				- TODO
+;	EntityManager::update				- Adds/removes Entity objects from vectors/map
 ;	EntityManager::removeDeadEntities	- TODO
 ;	EntityManager::addEntity			- TODO
 ;	EntityManager::getEntities			- TODO
@@ -71,8 +70,7 @@
 ;
 ;	LOCAL SYMBOLS
 ;	-------------
-;	exampleVar1		- Var that does blah
-;	exampleVar2		- Var that does blah
+;	None
 */
 EntityManager::EntityManager()
 	: m_totalEntities(0) {}
@@ -82,28 +80,30 @@ EntityManager::EntityManager()
 ;**********									EntityManager::update								**********
 ;*********************************************************************************************************
 ;
-;SUB-PROGRAM NAME:	TODO
+;SUB-PROGRAM NAME:	EntityManager::update
 ;
 ;FUNCTION:
 ;
-;	This method is used to...TODO
+;	This method is used to add newly spawned Entity objects from vectors/map, as well as removing dead 
+;	Entity objects from vectors/map. This method also clears vector for temporarily holding newly spawned
+;	Entity objects each frame.
 ;
 ;RETURN VALUE:
-;	TODO
+;	void
 ;
 ;LOCAL DECLARATIONS:
 ;
 ;	FORMAL PARAMETERS
 ;	-----------------
-;	TODO
+;	None
 ;
 ;	USER DEFINED TYPES
 ;	------------------
-;	TODO
+;	None
 ;
 ;	LOCAL SYMBOLS
 ;	-------------
-;	TODO		- TODO
+;	None
 ;	
 */
 void EntityManager::update()
