@@ -2,31 +2,56 @@
 ;**********								13B Game Implementation									**********		 
 ;*********************************************************************************************************
 ;
-;PACKAGE NAME:	TODO
+;PACKAGE NAME:	Game.cpp - 13B Game Implementation
 ;
 ;FUNCTION:
 ;
-;	This unit contains the source code designed to...TODO
+;	This unit contains the source code designed to create the Game class, this class includes main game
+;	loop, program systems, and Entity spawning methods.
 ;
 ;PUBLIC DECLARATIONS:
 ;
 ;	PUBLIC SYMBOLS
 ;	--------------
-;	TODO
+;	None
 ;
 ;	PUBLIC SUB-PROGRAMS
 ;	------------------
-;	TODO
+;	Game::Game	- Constructor
+;	Game::run	- Main game loop
 ;
 ;PRIVATE DECLARATIONS:
 ;
 ;	PRIVATE SYMBOLS
 ;	---------------
-;	TODO
+;	m_entityManager	
+;	m_window			
+;	m_font				
+;	m_text		
+;	m_pauseText	
+;	m_playerConfig
+;	m_enemyConfig
+;	m_bulletConfig
+;	m_score				
+;	m_currentFrame		
+;	m_lastEnemySpawnTime
+;	m_paused
+;	m_running
 ;
 ;	PRIVATE SUB-PROGRAMS
 ;	--------------------
-;	TODO
+;	Game::sMovement			
+;	Game::sUserInput			
+;	Game::sLifespan			
+;	Game::sRender			
+;	Game::sEnemySpawner		
+;	Game::sCollision			
+;	Game::spawnPlayer
+;	Game::spawnEnemy
+;	Game::spawnSmallEnemies
+;	Game::spawnBullet
+;	Game::spawnSpecialWeapon
+;	Game::activateSpecialWeapon
 ;
 */
 
